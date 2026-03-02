@@ -22,7 +22,6 @@ Fallas que permiten a usuarios acceder a datos o funciones fuera de sus permisos
 
 ## Prevención y mitigación: 
     * Los controles de acceso pueden asegurar que una aplicación web utilice tokens de autorización y establezca controles estrictos sobre los mismos. Esta es una forma garantizar que el        usuario es quien dice ser, sin tener que introducir constantemente sus credenciales de acceso.  
-
     * Implementar el concepto de acceso menos privilegiado, auditando regularmente servidores y sitios web, aplicando MFA y eliminando usuarios inactivos y servicios innecesarios de los servidores. 
 
 ---
