@@ -77,5 +77,9 @@ Fallas que permiten a usuarios acceder a datos o funciones fuera de sus permisos
 
 # A10:2025 - Mishandling of Exceptional Conditions
 
+# Referencias:  
 
+- https://www.cloudflare.com/es-es/learning/security/threats/owasp-top-10/  
+- https://www.fortinet.com/lat/resources/cyberglossary/owasp 
+- https://sucuri.net/guides/what-is-broken-access-control/ 
 
