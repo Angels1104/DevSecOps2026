@@ -35,12 +35,12 @@ Fallas que permiten a usuarios acceder a datos o funciones fuera de sus permisos
        no verifique si el usuario tiene permiso para modificar dicho recurso. 
 
 ## Prevención y mitigación: 
-     - Los controles de acceso pueden asegurar que una aplicación web utilice tokens de autorización y establezca controles estrictos 
-       sobre los mismos. Esta es una forma de garantizar que el usuario es quien dice ser, sin tener que introducir constantemente 
-       sus credenciales de acceso.
+     - Los controles de acceso pueden asegurar que una aplicación web utilice tokens de autorización y establezca controles 
+       estrictos sobre los mismos. Esta es una forma de garantizar que el usuario es quien dice ser, sin tener que introducir 
+       constantemente sus credenciales de acceso.
        
-     - Implementar el concepto de acceso menos privilegiado, auditando regularmente servidores y sitios web, aplicando MFA y eliminando 
-       usuarios inactivos y servicios innecesarios de los servidores. 
+     - Implementar el concepto de acceso menos privilegiado, auditando regularmente servidores y sitios web, aplicando MFA 
+       y eliminando usuarios inactivos y servicios innecesarios de los servidores. 
 
 ---
 
@@ -50,7 +50,8 @@ Fallas que permiten a usuarios acceder a datos o funciones fuera de sus permisos
   <img src="Images/Security Misconfiguration.png" width="600">
 </p>
 
-Ajustes por defecto inseguros, servicios innecesarios abiertos o falta de endurecimiento (hardening), las configuraciones usadas como predeterminadas en algunos sitios sitio web o del sistema de administración de contenido (CMS), pueden revelar inadvertidamente vulnerabilidades de aplicaciones. 
+Ajustes por defecto inseguros, servicios innecesarios abiertos o falta de endurecimiento (hardening), las configuraciones usadas como predeterminadas 
+en algunos sitios sitio web o del sistema de administración de contenido (CMS), pueden revelar inadvertidamente vulnerabilidades de aplicaciones. 
 
 ### Métodos de explotación: 
      - Escaneo de directorios y archivos: Uso de herramientas como Gobuster o Dirb para encontrar archivos sensibles expuestos 
@@ -68,7 +69,8 @@ Ajustes por defecto inseguros, servicios innecesarios abiertos o falta de endure
      - Análisis de mensajes de error: Provocar errores para obtener información detallada del servidor (Stack Traces), lo que 
        revela rutas de archivos, versiones de framework o estructura de base de datos. 
 
-     - Explotación de configuraciones HTTP: Aprovechar la falta de cabeceras de seguridad (como HSTS, CSP) o versiones de TLS obsoletas. 
+     - Explotación de configuraciones HTTP: Aprovechar la falta de cabeceras de seguridad (como HSTS, CSP) o 
+       versiones de TLS obsoletas. 
 
 ### Prevención y mitigación: 
 
