@@ -12,7 +12,7 @@ Michael Giovanny Sierra Leon
 # A01:2025 Broken Access Control.
 
 <p align="center">
-  <img src="Images/Broken Access Control..png" width="400">
+  <img src="Images/Broken Access Control.png" width="400">
 </p>
 
 Fallas que permiten a usuarios acceder a datos o funciones fuera de sus permisos. Permitiendo a los atacantes o usuarios saltarse la autorización y realizar tareas con privilegiados como los de un administrador. 
@@ -44,7 +44,40 @@ Fallas que permiten a usuarios acceder a datos o funciones fuera de sus permisos
 
 ---
 
-2
+# A02:2025 Security Misconfiguration. 
+
+<p align="center">
+  <img src="Images/Security Misconfiguration.png" width="400">
+</p>
+
+Ajustes por defecto inseguros, servicios innecesarios abiertos o falta de endurecimiento (hardening), las configuraciones usadas como predeterminadas en algunos sitios sitio web o del sistema de administración de contenido (CMS), pueden revelar inadvertidamente vulnerabilidades de aplicaciones. 
+
+### Métodos de explotación: 
+     - Escaneo de directorios y archivos: Uso de herramientas como Gobuster o Dirb para encontrar archivos sensibles expuestos 
+       (archivos de configuración, copias de seguridad) que no deberían ser públicos. 
+
+     - Credenciales predeterminadas: Intento de acceso a paneles de administración utilizando nombres de usuario y contraseñas 
+       estándar (ej. admin/admin) que no fueron cambiados tras la instalación. 
+
+     - Enumeración de servicios (Banner Grabbing): Identificar versiones de software obsoletas o servicios innecesarios 
+       habilitados (ej. SSH, FTP, SMB) mediante escaneo de puertos. 
+
+     - Explotación de permisos en la nube: Acceder a buckets de almacenamiento (como AWS S3) mal configurados que permiten 
+       la lectura o escritura pública de datos. 
+
+     - Análisis de mensajes de error: Provocar errores para obtener información detallada del servidor (Stack Traces), lo que 
+       revela rutas de archivos, versiones de framework o estructura de base de datos. 
+
+     - Explotación de configuraciones HTTP: Aprovechar la falta de cabeceras de seguridad (como HSTS, CSP) o versiones de TLS obsoletas. 
+
+### Prevención y mitigación: 
+
+     - Cambiar la configuración predeterminada del webmaster o CMS, elimina las características de código no utilizadas y controlar
+       los comentarios del usuario y la visibilidad de la   información de este. Los desarrolladores también deben eliminar la 
+       documentación, las características, los marcos y las muestras innecesarias, segmentar la arquitectura de la aplicación y automatizar 
+       la efectividad de las configuraciones y los ajustes del entorno web. 
+
+---
 
 3
 
@@ -81,5 +114,6 @@ Fallas que permiten a usuarios acceder a datos o funciones fuera de sus permisos
 
 - https://www.cloudflare.com/es-es/learning/security/threats/owasp-top-10/  
 - https://www.fortinet.com/lat/resources/cyberglossary/owasp 
-- https://sucuri.net/guides/what-is-broken-access-control/ 
+- https://sucuri.net/guides/what-is-broken-access-control/
+- https://www.geeksforgeeks.org/ethical-hacking/owasp-top-10-vulnerabilities-and-preventions/
 
