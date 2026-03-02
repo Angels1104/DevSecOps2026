@@ -16,9 +16,8 @@ Esta clasificación se actualiza aproximadamente cada cuatro años, evaluando y 
 El OWASP Top 10 no es simplemente una lista de vulnerabilidades, sino un reflejo de cómo la seguridad en el desarrollo de software evoluciona constantemente. A continuación, se presenta una imagen comparativa que muestra cómo las vulnerabilidades han cambiado su posición entre 2021 y 2025, evidenciando la actualización más reciente realizada por la organización y cómo el panorama de amenazas continúa transformándose a nivel mundial.
 
 <p align="center">
-  <img src="OWASP/GRUPO T/images/OWASPTOP10.png width="600">
+  <img src="images/OWASPTOP10.png" width="600">
 </p>
-
 
 #Referencias 
 https://owasp.org/www-project-top-ten/
