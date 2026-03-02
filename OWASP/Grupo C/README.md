@@ -5,8 +5,6 @@ Leidy Dayana Avendaño Moreno
 Jeisson Andres Hernandez Martinez
 
 Michael Giovanny Sierra Leon
-
-# OWASP Top 10
 <p align="center">
   <img src="Images/Intro OSWASP Top 10.png" width="400">
 </p>
