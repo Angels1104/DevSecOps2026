@@ -91,6 +91,7 @@ Ejemplo de campo manipulado:
 {
   "role": "admin"
 }
+```
 
 Si el servidor no verifica correctamente la firma del token o confía únicamente en el contenido del campo role, el atacante podría obtener privilegios de administrador.
 
