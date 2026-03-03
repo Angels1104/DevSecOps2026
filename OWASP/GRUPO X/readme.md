@@ -10,7 +10,7 @@ DANIEL MAURICIO DAZA BORJA**
 
 # Análisis de Vulnerabilidades en el OWASP Top 10: Métodos de Explotación y Prevención
 
-# Introducción
+## Introducción
 
 El **OWASP Top 10** es un documento de referencia publicado por la organización internacional **OWASP (Open Web Application Security Project)**, que identifica las **10 vulnerabilidades más críticas en aplicaciones web** a nivel mundial.
 
