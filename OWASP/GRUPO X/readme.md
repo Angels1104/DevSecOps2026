@@ -734,7 +734,7 @@ Buenas prácticas:
 
 ---
 
-# 🏁 Conclusión
+## 🏁 Conclusión
 
 Los **Fallos de Autenticación (A07)** siguen siendo una de las vulnerabilidades más críticas del Top 10 de OWASP.
 
