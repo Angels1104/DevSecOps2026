@@ -213,6 +213,12 @@ CWE-117 - CWE-532 - CWE-778
 
     - Falta de monitoreo y registro permite a los atacantes alcanzar su proposito sin ser detectados. 
 
+<p align="center">
+  <img src="Images/Siem.JPG" width="600">
+</p>
+
+    
+
  ### Métodos de explotación: 
     - Eventos como, login, failed login, y un numero alto de transacciones  que no son logueados.
     - logs no son almacenados apropiadamente a travez del tiempo (PCI DSS requiere que se mantenga al menos por un año).
