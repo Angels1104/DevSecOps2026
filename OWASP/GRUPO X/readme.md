@@ -115,11 +115,11 @@ C -- No --> E["Acciones de un Atacante<br/><br/>- Acceso a Datos Sensibles<br/>-
 ```
 ----------
 
-# ⚔️ Métodos de Explotación
+## ⚔️ 2. Métodos de Explotación
 
 Los atacantes aprovechan estas fallas mediante distintas técnicas:
 
-## 1️⃣ Manipulación de URL y Parámetros (IDOR)
+### 1️⃣ Manipulación de URL y Parámetros (IDOR)
 
 Consiste en modificar identificadores en la URL o en los parámetros de una petición para acceder a recursos de otros usuarios.
 
@@ -191,7 +191,7 @@ S-->>U: Archivo entregado sin validación
 
 ----------
 
-## 2️⃣ Force Browsing (Navegación Forzada)
+### 2️⃣ Force Browsing (Navegación Forzada)
 
 ### 📌 Escenario
 
@@ -252,7 +252,7 @@ F --> G[Registro en logs de intento no autorizado]
 
 ----------
 
-## 3️⃣ Manipulación de Tokens y Cookies
+### 3️⃣ Manipulación de Tokens y Cookies
 
 ### 📌 Escenario
 
