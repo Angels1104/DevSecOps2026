@@ -188,7 +188,7 @@ Protección inadecuada de datos sensibles en tránsito o en reposo (antes Exposi
      - Cache Poisoning -> Ingresar una IP Falsa a las entradas de DNS para resolver cache, se utiliza para usar una pagina legitima y redirigir a una fraudulenta. 
      - Code injection -> Envio de datos inesperados a un interprete, ocurre generalmente en consultas tipo SQL, NoSQL, Ldap, Xpath 
           
-   ### Ejemplo ataque real  
+   ### Ejemplo ataque real:  
      - Ataque a la cadena de suministro de Solarwinds, el ataque termino atacando 18000 clientes que habian realizado actualizaciones de software.
      - Se inyecto codigo malicioso llamado Sunburst en Orion, el cual es un sistema de monitoreo de Solarwinds.
           
@@ -201,14 +201,19 @@ Protección inadecuada de datos sensibles en tránsito o en reposo (antes Exposi
 # A09:2025 - Security Logging and Alerting Failures
 
  ### Métodos de explotación: 
+
+ ### Ejemplo ataque real:  
    
  ### Prevención y mitigación:  
+ 
 
 ---
 
 # A10:2025 - Mishandling of Exceptional Conditions
 
  ### Métodos de explotación: 
+
+ ### Ejemplo ataque real:
    
  ### Prevención y mitigación:  
 
