@@ -225,9 +225,8 @@ CWE-117 - CWE-532 - CWE-778
     - logs de aplicaciones y APIs que no son monitoreados.
     - pruebas de penetración con herramientas como DAST o BURP, no muestran alertas.
 ### Ejemplo ataque real:  
-    -  
-    -
-    -
+    - Air Indian fue atacado, exponiendo información confidencial de tarjetas de credito de los pasajeros 
+        
 ### Prevención y mitigación:  
     - Registros de ataques completos y mejorados.
     - Correlación y agregación de eventos.
