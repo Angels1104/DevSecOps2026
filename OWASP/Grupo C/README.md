@@ -9,6 +9,9 @@ Michael Giovanny Sierra Leon
   <img src="Images/Intro OSWASP Top 10.png" width="600">
 </p>
 
+
+<marquee behavior="scroll" direction="left">DevSecOps</marquee>
+
 # A01:2025 Broken Access Control.
 
 <p align="center">
@@ -232,4 +235,4 @@ Protección inadecuada de datos sensibles en tránsito o en reposo (antes Exposi
 - https://www.fortinet.com/lat/resources/cyberglossary/owasp 
 - https://sucuri.net/guides/what-is-broken-access-control/
 - https://www.geeksforgeeks.org/ethical-hacking/owasp-top-10-vulnerabilities-and-preventions/
-
+- https://my.f5.com/
