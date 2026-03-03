@@ -236,7 +236,8 @@ CWE-117 - CWE-532 - CWE-778
     - Registros de ataques completos y mejorados.
     - Correlación y agregación de eventos.
     - Alertas y correos electrónicos basados ​​en infracciones.
-    - Integración con SIEM. 
+    - Integración con SIEM (Security Information and Event Managament)
+    
 ---
 
 # A10:2025 - Mishandling of Exceptional Conditions
