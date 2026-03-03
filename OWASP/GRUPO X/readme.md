@@ -52,7 +52,7 @@ El propósito del OWASP Top 10 no es solo listar vulnerabilidades, sino **crear 
 
 ---
 
-# 1. A01: Broken Access Control
+# 1. A01: Broken Access Control (Control de Acceso Roto)
 
 ## 📌 1. Descripción de la Vulnerabilidad
 
@@ -482,7 +482,7 @@ Un control de acceso deficiente puede permitir:
 
 ---
 
-# 7. A07: Fallos de Autenticación
+# 7. A07: Authentication Failures (Fallos de Autenticación)
 
 ---
 
