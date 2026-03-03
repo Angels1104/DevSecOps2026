@@ -14,7 +14,7 @@ A02 – Security Misconfiguration
 
 [A03 – Software Supply Chain Failures](Docs/A03-2025.md)
 
-A04 – Cryptographic Failures
+[A04 – Cryptographic Failures](Docs/A04-2025.md)
 
 A05 – Injection
 
