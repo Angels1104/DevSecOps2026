@@ -210,7 +210,9 @@ Protección inadecuada de datos sensibles en tránsito o en reposo (antes Exposi
 
 # A09:2025 - Security Logging and Alerting Failures
 CWE-117 - CWE-532 - CWE-778
+
     - Falta de monitoreo y registro permite a los atacantes alcanzar su proposito sin ser detectados. 
+
  ### Métodos de explotación: 
     - Eventos como, login, failed login, y un numero alto de transacciones  que no son logueados.
     - logs no son almacenados apropiadamente a travez del tiempo (PCI DSS requiere que se mantenga al menos por un año).
@@ -224,10 +226,7 @@ CWE-117 - CWE-532 - CWE-778
     - 
     -
     -
-
-
- 
-
+    
 ---
 
 # A10:2025 - Mishandling of Exceptional Conditions
