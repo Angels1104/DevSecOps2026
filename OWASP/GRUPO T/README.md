@@ -25,13 +25,92 @@ Es vulnerabilidad se lleva acabo cuando una aplicación no restringe adecuadamen
   <img src="images/access.png" width="600">
 </p>
 
-#Posibles Causas de la vulnerabilidad
+## Naturaleza del problema
 
 - Falta de validación en backend
 - Validaciones solo en frontend
 - Uso incorrecto de roles
 - Ausencia de controles de autorización
 
+
+## Impacto potencial
+
+- Acceso a datos sensibles
+- Escalamiento de privilegios
+- Modificación o eliminación de información
+- Compromiso total del sistema
+
+## Métodos de Explotación
+
+### IDOR (Insecure Direct Object Reference)
+
+Un **IDOR** ocurre cuando una aplicación utiliza un identificador directo (por ejemplo, un número de usuario o de cuenta) en la URL o en un parámetro, sin validar correctamente si el usuario autenticado tiene permisos para acceder a ese recurso.
+
+
+
+**1️⃣ suario  legítimo accede a su cuenta:**
+https://app.universidad.com/account?id=1001
+
+
+El sistema muestra la información correspondiente a la cuenta **1001**.
+
+---
+
+**2️ Manipulación  del parámetro por parte del atacante:**
+
+El atacante modifica manualmente el valor del identificador en la URL:
+https://app.universidad.com/account?id=1002
+
+
+Si el sistema **no valida la autorización correctamente**, mostrará la información de la cuenta **1002**, que pertenece a otro usuario. Como resultado acceso no autorizado a información de otra cuenta de usuario.
+
+---
+
+## Escalamiento Vertical de Privilegios
+
+El **escalamiento vertical de privilegios** ocurre cuando un usuario con permisos básicos logra acceder a funcionalidades restringidas para administradores u otros roles con mayor nivel de acceso.
+
+
+### Ejemplo de acceso indebido
+
+Un usuario normal intenta acceder directamente a un recurso administrativo:
+/admin/deleteUser
+
+
+Si la aplicación no valida correctamente los permisos en el backend, el usuario podría ejecutar acciones exclusivas de administrador.
+
+---
+
+### Bypass de autorización mediante manipulación de JWT
+
+En aplicaciones que utilizan **JSON Web Tokens (JWT)** para la autenticación, el atacante puede intentar modificar el contenido del token si este no está correctamente firmado o validado.
+
+Ejemplo de campo manipulado:
+
+```json
+{
+  "role": "admin"
+}
+
+Si el servidor no verifica correctamente la firma del token o confía únicamente en el contenido del campo role, el atacante podría obtener privilegios de administrador.
+
+### Las herramientas más usadas para explotar este tipo de vulnerabilidades son:
+- Burp Suite
+- OWASP ZAP
+- Postman
+
+## Caso real 
+
+- Exposición masiva de datos en APIs por falta de validación de permisos en endpoints REST.
+
+## Mejores practicas 
+
+- Implementar control de acceso en el backend
+- Aplicar el principio de mínimo privilegio
+- Validar permisos en cada request
+- Usar RBAC o ABAC correctamente
+- No confiar en datos del cliente (JWT sin validar)
+- Realizar pruebas de autorización automatizadas
 
 
 
