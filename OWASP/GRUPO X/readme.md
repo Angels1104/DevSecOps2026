@@ -10,6 +10,50 @@ DANIEL MAURICIO DAZA BORJA**
 
 # Análisis de Vulnerabilidades en el OWASP Top 10: Métodos de Explotación y Prevención
 
+---
+
+# Introducción
+
+El **OWASP Top 10** es un documento de referencia publicado por la organización internacional **OWASP (Open Web Application Security Project)**, que identifica las **10 vulnerabilidades más críticas en aplicaciones web** a nivel mundial.
+
+La edición 2025 representa una actualización basada en:
+
+* Datos reales recopilados de miles de aplicaciones
+* Análisis de expertos en ciberseguridad
+* Tendencias actuales de ataques
+* Cambios en arquitecturas modernas (APIs, microservicios, cloud, DevSecOps)
+
+---
+
+## 🎯 ¿Por qué es importante?
+
+El OWASP Top 10:
+
+* Sirve como estándar global de referencia en seguridad web
+* Es utilizado en auditorías, pentesting y cumplimiento normativo
+* Orienta a desarrolladores sobre los riesgos más críticos
+* Ayuda a priorizar controles de seguridad
+
+---
+
+## 🌍 Enfoque de la edición 2025
+
+La versión 2025 enfatiza especialmente:
+
+* Fallas en control de acceso
+* Problemas en mecanismos de autenticación
+* Seguridad en APIs
+* Gestión de identidades y tokens
+* Riesgos en entornos cloud y DevSecOps
+
+---
+
+## 🚀 Objetivo principal
+
+El propósito del OWASP Top 10 no es solo listar vulnerabilidades, sino **crear conciencia y promover mejores prácticas de seguridad desde el diseño hasta la implementación y operación de las aplicaciones.**
+
+---
+
 El **A01: Broken Access Control** del OWASP Top 10 se refiere a las fallas en los mecanismos de autorización que permiten que un usuario realice acciones o acceda a recursos para los que no tiene permisos.
 
 El control de acceso es el sistema que define qué puede hacer cada usuario dentro de una aplicación, según su rol y privilegios, aplicando principios como el **mínimo privilegio** (solo permitir lo estrictamente necesario). Cuando este mecanismo está mal diseñado, mal configurado o no se valida correctamente en el servidor, se produce una vulnerabilidad de autorización rota. 
@@ -382,6 +426,7 @@ La mitigación de **Broken Access Control** no depende de una sola técnica, sin
 La clave está en aplicar controles centralizados, verificables y auditables, asegurando que cada usuario solo pueda acceder exactamente a lo que le corresponde — ni más, ni menos.
 
 ---
+
 
 
 
