@@ -152,36 +152,54 @@ Protección inadecuada de datos sensibles en tránsito o en reposo (antes Exposi
 
 ---
 
-5
+# A05:2025 - Injection
+
+ ### Métodos de explotación: 
+   
+ ### Prevención y mitigación:  
 
 ---
+# A06:2025 - Insecure Design
 
-6
-
+ ### Métodos de explotación: 
+   
+ ### Prevención y mitigación:  
 ---
 
-7
+# A07:2025 - Authentication Failures
 
+ ### Métodos de explotación: 
+   
+ ### Prevención y mitigación:  
 ---
 
 # A08:2025 - Software or Data Integrity Failures 
-
-   # Naturaleza
-   
-      * Actualizaciones de software 
+    * Actualizaciones de software 
       * Datos críticos y de CI/CD (Continuos Integration and Continuos Delivery) sin verificación.
-  
-  #### Causas
-  
-  #### Impacto Social
+
+<p align="center">
+  <img src="Images/SoftwareorDataIntegrityFailures.JPG" width="600">
+</p>
 
 
-![SoftwareorDataIntegrityFailures](https://github.com/user-attachments/assets/f4174a42-566c-4fa5-bcd7-654a0779e5f0)
+   ### Métodos de explotación: 
+   
+   ### Prevención y mitigación:   
+  
+  
+
 
 # A09:2025 - Security Logging and Alerting Failures
 
+ ### Métodos de explotación: 
+   
+ ### Prevención y mitigación:  
 
 # A10:2025 - Mishandling of Exceptional Conditions
+
+ ### Métodos de explotación: 
+   
+ ### Prevención y mitigación:  
 
 # Referencias:  
 
