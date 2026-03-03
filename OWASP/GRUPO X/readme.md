@@ -430,7 +430,6 @@ La clave está en aplicar controles centralizados, verificables y auditables, as
 ---
 
 # 7. A07: Fallos de Autenticación
-
 ---
 
 ## 📌 1. Descripción de la Vulnerabilidad
@@ -703,6 +702,7 @@ Una autenticación débil puede permitir:
 Es la base de toda la seguridad del sistema.
 
 ---
+
 
 
 
