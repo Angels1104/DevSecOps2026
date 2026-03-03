@@ -1,12 +1,12 @@
-**INTEGRANTES**
+## Integrantes
 
-**ROBERTO CARLOS MUÑOZ
+| # | Nombre |
+|---|--------|
+| 1 | Roberto Carlos Muñoz |
+| 2 | Carlos Alberto Gonzalez |
+| 3 | Diego Armando Hernandez |
+| 4 | Daniel Mauricio Daza Borja |
 
-CARLOS ALBERTO GONZALEZ
-
-DIEGO ARMANDO HERNANDEZ
-
-DANIEL MAURICIO DAZA BORJA**
 
 # Análisis de Vulnerabilidades en el OWASP Top 10: Métodos de Explotación y Prevención
 
@@ -834,6 +834,7 @@ Ejemplo: instalar paquetes sin verificación, actualizaciones no firmadas, CI/CD
 - Se mantuvieron dependencias fijadas con lockfile.
 - Se revisaron vulnerabilidades de dependencias (SCA).
 - Se propusieron controles en pipeline (revisión, permisos, validación).
+
 
 
 
