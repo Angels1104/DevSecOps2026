@@ -58,6 +58,8 @@ El **A01: Broken Access Control** del OWASP Top 10 se refiere a las fallas en lo
 
 El control de acceso es el sistema que define qué puede hacer cada usuario dentro de una aplicación, según su rol y privilegios, aplicando principios como el **mínimo privilegio** (solo permitir lo estrictamente necesario). Cuando este mecanismo está mal diseñado, mal configurado o no se valida correctamente en el servidor, se produce una vulnerabilidad de autorización rota. 
 
+![enter image description here](https://miro.medium.com/v2/resize:fit:1400/0*nDZEqAb5PlFW4Nx5.png)
+
 En la práctica, esto puede permitir que un atacante:
 
 -   Acceda a información confidencial de otros usuarios.
@@ -426,6 +428,7 @@ La mitigación de **Broken Access Control** no depende de una sola técnica, sin
 La clave está en aplicar controles centralizados, verificables y auditables, asegurando que cada usuario solo pueda acceder exactamente a lo que le corresponde — ni más, ni menos.
 
 ---
+
 
 
 
