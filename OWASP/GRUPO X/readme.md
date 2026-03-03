@@ -456,7 +456,7 @@ Valida autenticación y autorización.
 
 ## 🏁 Conclusión
 
-**A01:2025 – Broken Access Control** es la vulnerabilidad más crítica del Top 10 de OWASP.
+**A01 – Broken Access Control** es la vulnerabilidad más crítica del Top 10 de OWASP.
 
 No es un problema superficial.
 Es un problema **arquitectónico**.
