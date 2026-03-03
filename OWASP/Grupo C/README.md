@@ -217,16 +217,16 @@ CWE-117 - CWE-532 - CWE-778
     - Eventos como, login, failed login, y un numero alto de transacciones  que no son logueados.
     - logs no son almacenados apropiadamente a travez del tiempo (PCI DSS requiere que se mantenga al menos por un año).
     - logs de aplicaciones y APIs que no son monitoreados.
-   
+    - pruebas de penetración con herramientas como DAST o BURP, no muestran alertas.
 ### Ejemplo ataque real:  
-    - 
+    -  
     -
     -
 ### Prevención y mitigación:  
-    - 
-    -
-    -
-    
+    - Registros de ataques completos y mejorados.
+    - Correlación y agregación de eventos.
+    - Alertas y correos electrónicos basados ​​en infracciones.
+    - Integración con SIEM. 
 ---
 
 # A10:2025 - Mishandling of Exceptional Conditions
