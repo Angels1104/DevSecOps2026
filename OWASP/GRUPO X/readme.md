@@ -10,8 +10,6 @@ DANIEL MAURICIO DAZA BORJA**
 
 # Análisis de Vulnerabilidades en el OWASP Top 10: Métodos de Explotación y Prevención
 
----
-
 # Introducción
 
 El **OWASP Top 10** es un documento de referencia publicado por la organización internacional **OWASP (Open Web Application Security Project)**, que identifica las **10 vulnerabilidades más críticas en aplicaciones web** a nivel mundial.
@@ -430,6 +428,7 @@ La mitigación de **Broken Access Control** no depende de una sola técnica, sin
 La clave está en aplicar controles centralizados, verificables y auditables, asegurando que cada usuario solo pueda acceder exactamente a lo que le corresponde — ni más, ni menos.
 
 ---
+
 
 
 
