@@ -50,6 +50,18 @@ La versión 2025 enfatiza especialmente:
 
 El propósito del OWASP Top 10 no es solo listar vulnerabilidades, sino **crear conciencia y promover mejores prácticas de seguridad desde el diseño hasta la implementación y operación de las aplicaciones.**
 
+## Lista del TOP 10 - 2025
+
+1. A01 - Broken Access Control
+2. A02 - Security Misconfiguration
+3. A03 - Software Supply Chain Failures
+4. A04 - Cryptographic Failures
+5. A05 - Injection
+6. A06 - Insecure Design
+7. A07 - Authentication Failures
+8. A08 - Software or Data Integrity Failures
+9. A09 - Security Logging and Alerting Failures
+10. A10 - Mishandling of Exceptional Conditions
 ---
 
 # 1. A01: Broken Access Control (Control de Acceso Roto)
