@@ -77,6 +77,8 @@ Este tipo de vulnerabilidad incluye problemas como IDOR, escalación de privileg
 
 En resumen, **Broken Access Control ocurre cuando una aplicación no restringe correctamente lo que cada usuario puede hacer o ver**, lo que puede comprometer la confidencialidad, integridad y disponibilidad del sistema, siendo una de las vulnerabilidades más críticas y frecuentes en aplicaciones modernas, provocando filtraciones de datos, escalada de privilegios y severos daños reputacionales.
 
+# Diagrama de Flujo
+---
 ```mermaid  
 flowchart TD  
   
@@ -426,6 +428,7 @@ La mitigación de **Broken Access Control** no depende de una sola técnica, sin
 La clave está en aplicar controles centralizados, verificables y auditables, asegurando que cada usuario solo pueda acceder exactamente a lo que le corresponde — ni más, ni menos.
 
 ---
+
 
 
 
