@@ -225,7 +225,7 @@ CWE-117 - CWE-532 - CWE-778
     
 
  ### Métodos de explotación: 
-    - Eventos como, login, failed login, y un numero alto de transacciones  que no son logueados.
+    - Eventos como login, failed login, y un numero alto de transacciones  que no son logueados.
     - logs no son almacenados apropiadamente a travez del tiempo (PCI DSS requiere que se mantenga al menos por un año).
     - logs de aplicaciones y APIs que no son monitoreados.
     - pruebas de penetración con herramientas como DAST o BURP, no muestran alertas.
