@@ -484,8 +484,6 @@ Un control de acceso deficiente puede permitir:
 
 # 7. A07: Authentication Failures (Fallos de Autenticación)
 
----
-
 ## 📌 1. Descripción de la Vulnerabilidad
 
 Según OWASP, **A07 – Fallos de Autenticación** ocurre cuando un sistema no verifica correctamente la identidad de un usuario, dispositivo o aplicación.
