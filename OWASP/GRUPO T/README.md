@@ -232,6 +232,96 @@ Ataque a SolarWinds, Cisco, FORTINET
 - RevisiÃ³n manual de dependencias crÃ­ticas
 - Implementar DevSecOps en CI/CD
 
+## A04:2025 Cryptographic Failures
+
+Esta vulnerabilidad ocurre cuando los datos no se cifran correctamente en tr nsito o en reposo, o cuando se utilizan mecanismos criptograficos debiles. La ausencia de cifrado en la capa de transporte (capa 4) o de protecci¢n adicional para informaci¢n sensible en la capa de aplicaci¢n (capa 7) puede permitir que atacantes intercepten, roben o manipulen datos cr¡ticos como contrase¤as, n£meros de tarjeta o informaci¢n personal.
+
+<p align="center">
+
+  <img src="images/Encripcion.png" width="600">
+
+</p>
+
+## Naturaleza del problema:
+
+- Se usan algoritmos debiles u obsoletos (ej: MD5, SHA1).
+- No se cifra informaci¢n sensible.
+- Se almacenan contrase¤as sin hash.
+- Se usan claves debiles o mal gestionadas.
+- No se protege correctamente la informaci¢n en tr nsito (HTTP en vez de HTTPS).
+- Problema tecnico en la protecci¢n de datos.
+
+## Metodos de Explotaci¢n
+
+ ## Ataques Man-in-the-Middle (MITM)
+
+Si el tr fico no est  cifrado correctamente, el atacante intercepta la comunicaci¢n.
+Herramientas: Wireshark, Burp Suite
+
+## Fuerza bruta sobre hashes d‚biles
+
+Si se almacenan contrase¤as con MD5 o SHA1.
+Herramientas: Hashcat, John the Ripper
+
+##Robo de base de datos mal cifrada
+
+Si no hay cifrado en reposo, el atacante obtiene datos en texto plano. Muchas brechas de seguridad han ocurrido porque las empresas almacenaban contrase¤as: En texto plano, o Con algoritmos debiles como MD5 o SHA1, Sin aplicar "salt", Sin funciones de hash adaptativas.
+
+
+## A05:2025 -Injection
+
+La vulnerabilidad de inyecci¢n ocurre cuando una aplicaci¢n env¡a datos no validados a un int‚rprete (SQL, sistema operativo, LDAP, etc.).
+
+Entrada de usuario no validada ejecutada como comando.
+
+## Causas
+
+- Concatenaci¢n directa en consultas SQL.
+- Falta de validaci¢n.
+- Falta de parametrizaci¢n.
+
+## Impacto
+
+- Acceso no autorizado a base de datos
+- Modificaci¢n o eliminaci¢n de datos.
+- Control total del servidor.
+
+## M‚todos de Explotaci¢n
+
+## SQL Injection
+
+Ejemplo vulnerable:
+SELECT * FROM usuarios WHERE usuario = 'admin' AND password = '123';
+Ataque: ' OR '1'='1
+
+#Herramientas:
+- SQLMap
+- Burp Suite
+- OWASP ZAP
+
+## Command Injection
+
+Entrada mal validada: ping {input_usuario}
+Ataque: 8.8.8.8; rm -rf /
+
+## NoSQL Injection
+
+- En MongoDB: { "$ne": null}
+
+## Mejores Pr cticas
+
+- Usar consultas parametrizadas (Prepared Statements)
+- Validar y sanitizar entradas
+- Principio de m¡nimo privilegio en Bases de Datos
+-  WAF (Firewall de Aplicaciones Web)
+- Escaneo SAST y DAST 
+
+
+## A06:2025 - Insecure Design
+
+
+
+
 
 
 
