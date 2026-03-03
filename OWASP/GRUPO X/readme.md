@@ -41,7 +41,8 @@ B --> C{"¿Acceso<br/>Restringido<br/>Correctamente?"}
 C -- Sí --> D["Acceso Seguro y Restringido<br/>Función Correcta"]  
   
 C -- No --> E["Acciones de un Atacante<br/><br/>- Acceso a Datos Sensibles<br/>- Modificación/Eliminación de Datos<br/>- Escalada de Privilegios<br/>- Evasión de Controles"]
-```mermaid
+
+```
 
 ## Métodos de Explotación
 
@@ -133,6 +134,7 @@ Los atacantes suelen:
 -   Plataformas en la nube que permitían múltiples intentos de login sin considerar ataques distribuidos.
     
 -   Endpoints administrativos expuestos sin validación de rol.
+
 
 
 
