@@ -189,7 +189,10 @@ Protección inadecuada de datos sensibles en tránsito o en reposo (antes Exposi
      - Code injection ->
      - Command execution ->
      
-     
+   ### Ejemplo ataque real  
+     - Ataque a la cadena de suministro de Solarwinds, el ataque termino atacando 18000 clientes que habian realizado actualizaciones de software.
+     - Se inyecto codigo malicioso llamado Sunburst en Orion, el cual es un sistema de monitoreo de Solarwinds.
+          
    ### Prevención y mitigación:   
      - Utilizar firmas digitales para verifificar que el software no ha sido alterado
      - 
