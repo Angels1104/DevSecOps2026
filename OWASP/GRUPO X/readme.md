@@ -53,7 +53,7 @@ Los atacantes aprovechan estas fallas mediante distintas técnicas:
 
 Consiste en modificar identificadores en la URL o en los parámetros de una petición para acceder a recursos de otros usuarios.
 
-**Ejemplo:**
+**Ejemplo cambio ID en la URL:**
 
 Solicitud legítima:
 
@@ -84,7 +84,7 @@ D --> E[Exposición de información sensible]
 
 ```
 
-Ejemplo descarga de archivo
+**Ejemplo descarga de archivos:**
 
 Solicitud original:
 
@@ -197,6 +197,7 @@ Los atacantes suelen:
 -   Plataformas en la nube que permitían múltiples intentos de login sin considerar ataques distribuidos.
     
 -   Endpoints administrativos expuestos sin validación de rol.
+
 
 
 
