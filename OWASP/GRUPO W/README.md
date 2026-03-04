@@ -19,8 +19,11 @@ El Top 10 de OWASP es un documento estándar de concientización para desarrolla
 # LIST OWASP Top 10 (2025) 
 
 [A03 - Inyección](Docs/A03-2025.md)
+
 [A04 - Diseño Inseguro](Docs/A04-2025.md)
+
 [A05 - Configuración Incorrecta](Docs/A05-2025.md)
+
 [A07 - Fallas de Identificación y Autenticación](Docs/A07-2025.md)
 
 
