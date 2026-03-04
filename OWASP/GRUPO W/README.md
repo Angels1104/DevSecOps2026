@@ -6,7 +6,7 @@
 * Juan Diaz
 * Jonathan Garzon
 * ## Tema del trabajo
-* 
+  
 **Investigación sobre el OWASP Top 10**
 <p align="center">
   <img src="image/logo.png" width="600">
@@ -52,29 +52,29 @@ categoría amplia que representa diferentes debilidades, expresadas como un dise
 
 Cuando un atacante logra engañar a un sistema para que reconozca a un usuario inválido o incorrecto como legítimo, se presenta esta vulnerabilidad. Puede haber vulnerabilidades de autenticación si la aplicación:
 
-1) Permite ataques automatizados como el robo de credenciales, donde el atacante obtiene una lista vulnerada de nombres de usuario y contraseñas válidos. Recientemente, este tipo de ataque se ha ampliado para incluir ataques híbridos de contraseñas (también conocidos como ataques de rociado de contraseñas), donde el atacante utiliza variaciones o incrementos de credenciales robadas para obtener acceso, por ejemplo, probando "Contraseña1!", "Contraseña2!", "Contraseña3!", etc.
+* Permite ataques automatizados como el robo de credenciales, donde el atacante obtiene una lista vulnerada de nombres de usuario y contraseñas válidos. Recientemente, este tipo de ataque se ha ampliado para incluir ataques híbridos de contraseñas (también conocidos como ataques de rociado de contraseñas), donde el atacante utiliza variaciones o incrementos de credenciales robadas para obtener acceso, por ejemplo, probando "Contraseña1!", "Contraseña2!", "Contraseña3!", etc.
 
-2) Permite ataques de fuerza bruta u otros ataques automatizados y programados que no se bloquean rápidamente.
+* Permite ataques de fuerza bruta u otros ataques automatizados y programados que no se bloquean rápidamente.
 
-3) Permite contraseñas predeterminadas, débiles o conocidas, como "Contraseña1" o el nombre de usuario "admin" con una contraseña "admin".
+* Permite contraseñas predeterminadas, débiles o conocidas, como "Contraseña1" o el nombre de usuario "admin" con una contraseña "admin".
 
-4) Permite a los usuarios crear nuevas cuentas con credenciales que ya se sabe que han sido violadas.
+* Permite a los usuarios crear nuevas cuentas con credenciales que ya se sabe que han sido violadas.
 
-5) Permite el uso de procesos de recuperación de credenciales débiles o ineficaces y de contraseña olvidada, como "respuestas basadas en conocimiento", que no se pueden hacer seguras.
+* Permite el uso de procesos de recuperación de credenciales débiles o ineficaces y de contraseña olvidada, como "respuestas basadas en conocimiento", que no se pueden hacer seguras.
 
-6) Utiliza almacenes de datos de contraseñas de texto simple, cifradas o con algoritmos hash débiles (consulte A04:2025-Fallas criptográficas ).
+* Utiliza almacenes de datos de contraseñas de texto simple, cifradas o con algoritmos hash débiles (consulte A04:2025-Fallas criptográficas ).
 
-7) Tiene autenticación multifactor faltante o ineficaz.
+* Tiene autenticación multifactor faltante o ineficaz.
 
-8) Permite el uso de alternativas débiles o ineficaces si la autenticación multifactor no está disponible.
+* Permite el uso de alternativas débiles o ineficaces si la autenticación multifactor no está disponible.
 
-9) Expone el identificador de sesión en la URL, un campo oculto u otra ubicación insegura a la que puede acceder el cliente.
+* Expone el identificador de sesión en la URL, un campo oculto u otra ubicación insegura a la que puede acceder el cliente.
 
-10) Reutiliza el mismo identificador de sesión después de un inicio de sesión exitoso.
+* Reutiliza el mismo identificador de sesión después de un inicio de sesión exitoso.
 
-11) No invalida correctamente las sesiones de usuario o los tokens de autenticación (principalmente tokens de inicio de sesión único (SSO)) durante el cierre de sesión o un período de inactividad.
+* No invalida correctamente las sesiones de usuario o los tokens de autenticación (principalmente tokens de inicio de sesión único (SSO)) durante el cierre de sesión o un período de inactividad.
 
-12) No afirma correctamente el alcance y la audiencia prevista de las credenciales proporcionadas.
+* No afirma correctamente el alcance y la audiencia prevista de las credenciales proporcionadas.
 
 # Fallas de integridad de software o datos 
 
