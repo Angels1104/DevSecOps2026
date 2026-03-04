@@ -232,6 +232,9 @@ Ataque a SolarWinds, Cisco, FORTINET
 - Implementar DevSecOps en CI/CD
 
 
+A04:2025 Cryptographic Failures
+Descripción:  
+Esta vulnerabilidad ocurre cuando los datos no se cifran correctamente en tránsito o en reposo, o cuando se utilizan mecanismos criptográficos débiles. La ausencia de cifrado en la capa de transporte (capa 4) o de protección adicional para información sensible en la capa de aplicación (capa 7) puede permitir que atacantes intercepten, roben o manipulen datos críticos como contraseñas, números de tarjeta o información personal.
 
 
 
