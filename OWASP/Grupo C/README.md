@@ -249,19 +249,18 @@ CWE-234 Failure to Handle Missing Parameter
   <img src="Images/Mishandling.JPG" width="600">
 </p>
 
-
 Ocurre cuando hay fallos a nivel de software, estos fallos ocurren cuando el software no logra manejar eventos inesperados. 
  ### Métodos de explotación: 
        - Injection, al mostrar errores o revelar información confidencial, el atacante puede utilizar inyección de SQL. 
-       - DoS, si el softwware no cuenta con las excepciones requeridas puede quedar en un consumo infinito de recursos hasta dejarlos indisponibles
+       - DoS, si el softwware no cuenta con las excepciones requeridas, puede quedar en un consumo infinito de recursos hasta dejarlos indisponible.
        - Uso de Fuzzing, el cual es una tecnica para generar datos aleatorios erroneos y asi provocar fallos del software.
  ### Ejemplo ataque real:
        - Fornite 2019, un ataque de SQL Injection mostro datos confidenciales de los jugadores
  
  ### Prevención y mitigación:  
-       - 
-       -
-
+       - Detección y gestion de condicionales anomalas, permite validar que hace el software sobre escenarios desconocidos.
+       - Pruebas de calidad de Software, donde se someta a prueba el software y se busca encontrar vulnerabilidades a nivel de flujo y excepciones
+       
 ---
 
 # Referencias:  
