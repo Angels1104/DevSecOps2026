@@ -52,16 +52,76 @@ A continuación, se describen las principales vulnerabilidades identificadas en 
 
 ---
 
-<<<<<<< HEAD
 ![Diagrama OWASP](img/owasp-10.png)
 
 *Fuente: OWASP Foundation (2021)*
-=======
 ![Diagrama OWASP](images/owasp-10.png)
 
 *Fuente: OWASP Foundation (2021)*
 
-Ronald
+## 1️⃣ Control de Acceso Roto (Broken Access Control)
+
+**Descripción:**  
+Ocurre cuando los usuarios pueden actuar fuera de los permisos asignados.
+
+**Métodos de explotación:**
+- Manipulación de URLs
+- Fuerza bruta sobre identificadores
+- Modificación de tokens o cookies
+
+**Prevención:**
+- Validación de permisos en el servidor
+- Principio de mínimo privilegio
+- Control de roles adecuado
+
+---
+
+## 2️⃣ Fallos Criptográficos (Cryptographic Failures)
+
+**Descripción:**  
+Protección inadecuada de datos sensibles.
+
+**Métodos de explotación:**
+- Interceptación de tráfico sin HTTPS
+- Contraseñas almacenadas en texto plano
+- Uso de hashes débiles
+
+**Prevención:**
+- Uso obligatorio de HTTPS/TLS
+- Hashing seguro (bcrypt, Argon2)
+- Gestión adecuada de claves
+
+---
+
+## 3️⃣ Inyección (Injection)
+
+**Descripción:**  
+Entrada maliciosa interpretada como comandos o consultas.
+
+**Ejemplos:**
+- SQL Injection  
+- Command Injection  
+- LDAP Injection  
+
+**Prevención:**
+- Consultas parametrizadas
+- Validación estricta de entradas
+- Uso de ORM seguros
+
+---
+
+## 4️⃣ Diseño Inseguro (Insecure Design)
+
+**Descripción:**  
+Falta de controles de seguridad desde la arquitectura inicial.
+
+**Prevención:**
+- Modelado de amenazas
+- Arquitectura segura por diseño
+- Pruebas de seguridad tempranas
+
+---
+
 ## 5️⃣ Configuración de Seguridad Incorrecta (Security Misconfiguration)
 **Descripción:**  
 Errores en configuración de servidores o frameworks.
@@ -118,4 +178,3 @@ Falta de logs adecuados para detectar incidentes.
 - Registro centralizado
 - Alertas automáticas
 - Integración con SIEM
->>>>>>> f3aa279aae7a7b0d59e0dc10b884139c02c7ec2e
