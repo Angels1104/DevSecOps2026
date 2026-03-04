@@ -11,7 +11,11 @@ Investigar y analizar cada vulnerabilidad del OWASP Top 10.
 Documentar métodos de explotación asociados con cada vulnerabilidad.
 Proporcionar recomendaciones prácticas para prevenir y mitigar los riesgos asociados.
 
-# OWASP Top 10
+
+<p align="center">
+  # OWASP Top 10
+</p>
+
 
 
 ## 1. Cryptographic Failures (Fallos criptográficos)
@@ -69,3 +73,4 @@ Ocurre cuando una aplicación no impone correctamente las reglas que limitan lo 
 - Uso de roles con control de acceso fuerte y pruebas automatizadas de autorización.
 
 ---
+
