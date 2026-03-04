@@ -442,9 +442,146 @@ Confianza excesiva en el lado cliente, errores:
 - Integrar seguridad en DevSecOps
 
 
-## A07:2021 - Identification and Authentication Failures
+
+## A07:2021 – Identification and Authentication Failures
+
+# 01 Naturaleza de la vulnerabilidad 
+
+Antes conocida como “Broken Authentication”. Se presenta cuando los mecanismos de autenticación (login, manejo de sesiones, recuperación de contraseña, tokens, etc.) están mal implementados o mal configurados, permitiendo que un atacante suplante la identidad de un usuario.
+
+# Afecta:
+- Inicio de sesión
+- Gestión de sesiones
+- Restablecimiento de contraseñas
+- Tokens JWT
+- MFA mal implementado
+
+# Causas principales
+
+- Contraseñas débiles o sin política de complejidad.
+- No limitar intentos de inicio de sesión (fuerza bruta).
+- Sesiones que no expiran.
+- Uso inseguro de tokens JWT.
+- Falta de autenticación multifactor (MFA).
+- IDs de sesión predecibles.
+- Cookies sin flags de seguridad (HttpOnly, Secure).
+
+# Impacto potencial
+
+- Secuestro de cuentas.
+- Acceso no autorizado a información sensible.
+- Escalamiento de privilegios.
+- Robo de identidad digital.
+- Compromiso total de la aplicación.
+- Es una de las vulnerabilidades más explotadas en ataques reales.
+
+#02 ¿Cómo explotan los atacantes esta vulnerabilidad?
+
+Intentan muchas combinaciones de usuario/contraseña hasta adivinar la correcta. Envía miles de intentos de login rápidamente. Cuando no hay bloqueo por intentos fallidos, el atacante entra.
+
+- Escenario 1: Relleno de credenciales (Credential Stuffing)
+
+El relleno de credenciales es un ataque común que consiste en utilizar listas de usuarios y contraseñas filtradas previamente en otras brechas de seguridad. Supongamos que una aplicación no implementa mecanismos de protección contra ataques automatizados, como limitación de intentos de inicio de sesión, CAPTCHA o detección de comportamiento anómalo. En ese caso, la aplicación puede convertirse en un “oráculo de contraseñas”, permitiendo al atacante verificar automáticamente si las credenciales probadas son válidas. Si la aplicación responde de manera diferente cuando el usuario o la contraseña son incorrectos, el atacante puede confirmar qué combinaciones funcionan, logrando así el acceso no autorizado a cuentas legítimas.
+
+- Escenario 2: Uso exclusivo de contraseñas como único factor de autenticación
+
+La mayoría de los ataques de autenticación ocurren debido al uso continuo de contraseñas como único factor de autenticación. Aunque anteriormente se recomendaban políticas estrictas de complejidad y rotación frecuente de contraseñas, estas prácticas han demostrado incentivar a los usuarios a crear contraseñas débiles o reutilizarlas en múltiples servicios. Esto incrementa el riesgo de ataques como fuerza bruta o credential stuffing. De acuerdo con las recomendaciones del estándar NIST SP 800-63, las organizaciones deberían abandonar prácticas obsoletas como la rotación obligatoria frecuente y, en su lugar, implementar autenticación multifactor (MFA). El uso de MFA reduce significativamente el riesgo, incluso si la contraseña ha sido comprometida.
+
+# Herramientas comunes:
+
+Hydra es una herramienta de código abierto diseñada para realizar ataques de fuerza bruta contra servicios de autenticación. Su principal funcionalidad es probar múltiples combinaciones de usuarios y contraseñas de manera automatizada hasta encontrar credenciales válidas. Soporta numerosos protocolos como HTTP, HTTPS, FTP, SSH, RDP, SMTP y bases de datos, lo que la convierte en una herramienta versátil en pruebas de penetración. Hydra es ampliamente utilizada por profesionales de seguridad para evaluar la fortaleza de los mecanismos de autenticación y detectar configuraciones débiles que permitan accesos no autorizados.
+
+Medusa es otra herramienta de fuerza bruta orientada a la auditoría de servicios de autenticación remotos. Su funcionamiento es similar al de Hydra, pero está optimizada para realizar ataques paralelos y multihilo, lo que mejora su velocidad y eficiencia al probar grandes volúmenes de credenciales. Permite evaluar distintos protocolos y es utilizada en pruebas de seguridad para identificar vulnerabilidades relacionadas con la ausencia de limitación de intentos de inicio de sesión o políticas débiles de contraseñas. Su enfoque modular facilita su adaptación a diferentes entornos.
+
+Patator es una herramienta modular de pruebas de fuerza bruta que permite ejecutar ataques personalizados contra diversos servicios y aplicaciones. A diferencia de Hydra y Medusa, Patator ofrece mayor flexibilidad, ya que permite definir parámetros específicos y realizar ataques más complejos, incluyendo pruebas contra formularios web, autenticación HTTP y otros mecanismos personalizados. Es especialmente útil cuando se requiere adaptar el ataque a escenarios específicos o cuando se necesitan técnicas más avanzadas para evadir controles básicos de seguridad. En el contexto de pruebas de penetración, se emplea para validar la resistencia de los sistemas ante intentos automatizados de autenticación.
 
 
+
+# 03 Mejores practicas de prevención y mitigación
+
+Para prevenir vulnerabilidades relacionadas con errores de autenticación (A07), es fundamental aplicar controles sólidos que reduzcan el riesgo de accesos no autorizados. En primer lugar, se recomienda implementar autenticación multifactor (MFA), ya que añade una capa adicional de seguridad más allá de la contraseña y mitiga ataques como fuerza bruta, relleno de credenciales y reutilización de contraseñas filtradas.
+
+En segundo lugar, es importante establecer políticas modernas de contraseñas alineadas con las recomendaciones del NIST SP 800-63B. Esto implica priorizar contraseñas largas y robustas, evitar requisitos de complejidad excesivos que incentiven malas prácticas y bloquear el uso de contraseñas comunes o previamente comprometidas. Asimismo, nunca se deben utilizar credenciales predeterminadas, especialmente en cuentas administrativas.
+
+En tercer lugar, se deben proteger los mecanismos de autenticación contra la enumeración de cuentas y ataques automatizados. Para ello, es necesario utilizar mensajes de error genéricos, limitar o retrasar progresivamente los intentos fallidos de inicio de sesión y monitorear patrones sospechosos, evitando al mismo tiempo generar escenarios de denegación de servicio.
+
+Finalmente, se debe implementar una gestión segura de sesiones. Esto incluye generar identificadores de sesión aleatorios con alta entropía, almacenarlos de forma segura, invalidarlos después del cierre de sesión o períodos de inactividad y evitar su exposición en la URL. Una correcta administración de sesiones reduce significativamente el riesgo de secuestro de sesión y acceso indebido a la aplicación.
+
+
+
+## A08:2021 – Software and Data Integrity Failures
+
+# 01 Naturaleza de la vulnerabilidad 
+
+Esta vulnerabilidad se centra en la falta de verificación de integridad del software y los datos críticos. Ocurre cuando una aplicación confía en código, actualizaciones, bibliotecas o datos externos sin validar su autenticidad o integridad.
+
+También incluye problemas en:
+
+Procesos de integración y despliegue continuo (CI/CD)
+Descarga automática de actualizaciones
+Uso de dependencias de fuentes no confiables
+Deserialización de datos manipulables
+
+# Causas principales
+
+Las causas más comunes incluyen:
+
+- No validar firmas digitales o hashes de archivos descargados
+- Uso de librerías desde repositorios o CDN sin verificación de integridad
+- Pipelines CI/CD sin controles de acceso adecuados
+- Falta de control en actualizaciones automáticas
+- Deserialización de datos provenientes de usuarios sin validación
+- Dependencia excesiva de componentes de terceros sin monitoreo
+
+En muchos casos, el problema es confiar en fuentes externas sin aplicar controles criptográficos.
+
+# Impacto potencial
+
+Las consecuencias pueden ser críticas:
+
+- Ejecución remota de código (RCE)
+- Compromiso total del sistema
+- Distribución masiva de malware mediante actualizaciones falsas
+- Manipulación o alteración de datos sensibles
+- Escalamiento de privilegios
+- Afectación de toda la cadena de suministro del software
+
+Este tipo de vulnerabilidad puede permitir que un atacante inyecte código malicioso que se distribuya automáticamente a todos los usuarios del sistema comprometido.
+
+#02 ¿Cómo explotan los atacantes esta vulnerabilidad?
+
+Los atacantes explotan la vulnerabilidad aprovechando que la aplicación no verifica la integridad del software o de los datos que utiliza. Cuando un sistema descarga actualizaciones, dependencias o componentes externos sin validar su firma digital o su hash, un atacante puede modificar esos archivos e introducir código malicioso. También pueden comprometer repositorios, servidores de actualización o pipelines de CI/CD para insertar código antes de que el software sea distribuido. En otros casos, manipulan datos serializados que la aplicación procesa sin validación, logrando ejecutar instrucciones maliciosas. En todos los escenarios, el ataque funciona porque el sistema confía en código o información externa sin comprobar su autenticidad, lo que puede permitir ejecución remota de código, control del sistema o distribución masiva de malware.
+
+- Escenario 1 – Actualizaciones de firmware sin firma digital
+
+Muchos enrutadores domésticos, decodificadores y dispositivos IoT no verifican la integridad de sus actualizaciones mediante firmas digitales. Esto permite que un atacante modifique o reemplace el firmware por una versión maliciosa. El problema es crítico porque, una vez comprometido el firmware, no siempre existe un mecanismo sencillo de remediación. En muchos casos, la única solución es lanzar una nueva versión y esperar a que los dispositivos antiguos queden obsoletos, dejando a numerosos usuarios expuestos durante largos periodos.
+
+
+- Escenario 2 – Ataque a SolarWinds (2020)
+
+El caso más conocido es el ataque a SolarWinds, específicamente a su plataforma SolarWinds Orion. En este incidente, atacantes comprometieron el proceso de compilación y actualización del software. Lograron insertar código malicioso en una actualización legítima que fue distribuida a más de 18.000 organizaciones en todo el mundo. Aunque no todas fueron explotadas activamente, alrededor de 100 organizaciones de alto perfil resultaron afectadas, incluyendo agencias gubernamentales y grandes corporaciones. Este ataque es considerado una de las violaciones de cadena de suministro más graves de la historia moderna.
+
+https://www.fortinet.com/lat/resources/cyberglossary/solarwinds-cyber-attack
+
+- Escenario #3 – Ataque a Kaseya (2021)
+
+Otro caso altamente relevante fue el ataque contra Kaseya, específicamente su producto Kaseya VSA.Los atacantes explotaron vulnerabilidades en el sistema de gestión remota para distribuir ransomware a través de proveedores de servicios gestionados (MSP). Como resultado, cientos de empresas fueron afectadas indirectamente. Este caso demostró cómo comprometer una plataforma de administración o actualización puede permitir la distribución masiva de malware a múltiples víctimas al mismo tiempo.
+
+
+https://en.wikipedia.org/wiki/Kaseya
+https://en.wikipedia.org/wiki/Kaseya_VSA_ransomware_attack
+
+# Herramientas comunes:
+
+- Frameworks de explotación y post-explotación, como Metasploit, para ejecutar cargas maliciosas una vez insertado el código en una actualización o dependencia comprometida.
+- Herramientas de análisis y manipulación de tráfico, como Burp Suite o Wireshark, para interceptar y modificar actualizaciones si no están protegidas adecuadamente.
+- Herramientas de deserialización maliciosa, como ysoserial, que generan payloads diseñados para explotar deserialización insegura en aplicaciones Java.
+
+# 03 Mejores practicas de prevención y mitigación
+
+Para prevenir y mitigar la vulnerabilidad es fundamental implementar mecanismos que garanticen la integridad y autenticidad del software y los datos. Se deben utilizar firmas digitales, hashes u otros controles criptográficos para verificar que las actualizaciones, archivos y componentes provienen de fuentes legítimas y no han sido alterados.
+
+También debe existir un proceso formal de revisión de cambios en el código y en la configuración para evitar la introducción de código malicioso. Los pipelines de CI/CD deben contar con controles de acceso adecuados, segregación de funciones y configuraciones seguras que protejan la integridad del proceso de construcción y despliegue.
 
 
 
