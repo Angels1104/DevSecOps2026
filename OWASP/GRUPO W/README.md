@@ -12,6 +12,10 @@
   <img src="image/logo.png" width="600">
 </p
 
+El Top 10 de OWASP es un documento estándar de concientización para desarrolladores y seguridad de aplicaciones web. Representa un amplio consenso sobre los riesgos de seguridad más críticos para las aplicaciones web.
+
+ Docs/A03-2025.md
+
 # LIST OWASP Top 10 (2025) 
 
 # Control de acceso roto
@@ -99,8 +103,10 @@ Cuando un atacante logra engañar a un sistema para que reconozca a un usuario i
 
 # Fallas de integridad de software o datos 
 
-
-
+<p align="center">
+  <img src="image/7.png" width="200">
+</p
+  
 Las fallas de integridad de software y datos se relacionan con código e infraestructura que no protegen contra código o datos no válidos o no confiables que se consideran confiables y válidos. Un ejemplo de esto es cuando una aplicación depende de complementos, bibliotecas o módulos de fuentes, repositorios y redes de entrega de contenido (CDN) no confiables. 
 
 # Fallas de registro y alertas de seguridad
