@@ -443,20 +443,20 @@ Confianza excesiva en el lado cliente, errores:
 
 
 
-## A07:2021 – Identification and Authentication Failures
+# A07:2021 – Identification and Authentication Failures
 
-# 01 Naturaleza de la vulnerabilidad 
+## 01 Naturaleza de la vulnerabilidad 
 
 Antes conocida como “Broken Authentication”. Se presenta cuando los mecanismos de autenticación (login, manejo de sesiones, recuperación de contraseña, tokens, etc.) están mal implementados o mal configurados, permitiendo que un atacante suplante la identidad de un usuario.
 
-# Afecta:
+## Afecta:
 - Inicio de sesión
 - Gestión de sesiones
 - Restablecimiento de contraseñas
 - Tokens JWT
 - MFA mal implementado
 
-# Causas principales
+## Causas principales
 
 - Contraseñas débiles o sin política de complejidad.
 - No limitar intentos de inicio de sesión (fuerza bruta).
@@ -466,7 +466,7 @@ Antes conocida como “Broken Authentication”. Se presenta cuando los mecanism
 - IDs de sesión predecibles.
 - Cookies sin flags de seguridad (HttpOnly, Secure).
 
-# Impacto potencial
+## Impacto potencial
 
 - Secuestro de cuentas.
 - Acceso no autorizado a información sensible.
@@ -475,7 +475,7 @@ Antes conocida como “Broken Authentication”. Se presenta cuando los mecanism
 - Compromiso total de la aplicación.
 - Es una de las vulnerabilidades más explotadas en ataques reales.
 
-#02 ¿Cómo explotan los atacantes esta vulnerabilidad?
+## 02 ¿Cómo explotan los atacantes esta vulnerabilidad?
 
 Intentan muchas combinaciones de usuario/contraseña hasta adivinar la correcta. Envía miles de intentos de login rápidamente. Cuando no hay bloqueo por intentos fallidos, el atacante entra.
 
@@ -487,7 +487,7 @@ El relleno de credenciales es un ataque común que consiste en utilizar listas d
 
 La mayoría de los ataques de autenticación ocurren debido al uso continuo de contraseñas como único factor de autenticación. Aunque anteriormente se recomendaban políticas estrictas de complejidad y rotación frecuente de contraseñas, estas prácticas han demostrado incentivar a los usuarios a crear contraseñas débiles o reutilizarlas en múltiples servicios. Esto incrementa el riesgo de ataques como fuerza bruta o credential stuffing. De acuerdo con las recomendaciones del estándar NIST SP 800-63, las organizaciones deberían abandonar prácticas obsoletas como la rotación obligatoria frecuente y, en su lugar, implementar autenticación multifactor (MFA). El uso de MFA reduce significativamente el riesgo, incluso si la contraseña ha sido comprometida.
 
-# Herramientas comunes:
+## Herramientas comunes:
 
 Hydra es una herramienta de código abierto diseñada para realizar ataques de fuerza bruta contra servicios de autenticación. Su principal funcionalidad es probar múltiples combinaciones de usuarios y contraseñas de manera automatizada hasta encontrar credenciales válidas. Soporta numerosos protocolos como HTTP, HTTPS, FTP, SSH, RDP, SMTP y bases de datos, lo que la convierte en una herramienta versátil en pruebas de penetración. Hydra es ampliamente utilizada por profesionales de seguridad para evaluar la fortaleza de los mecanismos de autenticación y detectar configuraciones débiles que permitan accesos no autorizados.
 
@@ -497,7 +497,7 @@ Patator es una herramienta modular de pruebas de fuerza bruta que permite ejecut
 
 
 
-# 03 Mejores practicas de prevención y mitigación
+## 03 Mejores practicas de prevención y mitigación
 
 Para prevenir vulnerabilidades relacionadas con errores de autenticación (A07), es fundamental aplicar controles sólidos que reduzcan el riesgo de accesos no autorizados. En primer lugar, se recomienda implementar autenticación multifactor (MFA), ya que añade una capa adicional de seguridad más allá de la contraseña y mitiga ataques como fuerza bruta, relleno de credenciales y reutilización de contraseñas filtradas.
 
@@ -509,9 +509,9 @@ Finalmente, se debe implementar una gestión segura de sesiones. Esto incluye ge
 
 
 
-## A08:2021 – Software and Data Integrity Failures
+# A08:2021 – Software and Data Integrity Failures
 
-# 01 Naturaleza de la vulnerabilidad 
+## 01 Naturaleza de la vulnerabilidad 
 
 Esta vulnerabilidad se centra en la falta de verificación de integridad del software y los datos críticos. Ocurre cuando una aplicación confía en código, actualizaciones, bibliotecas o datos externos sin validar su autenticidad o integridad.
 
@@ -522,7 +522,7 @@ Descarga automática de actualizaciones
 Uso de dependencias de fuentes no confiables
 Deserialización de datos manipulables
 
-# Causas principales
+## Causas principales
 
 Las causas más comunes incluyen:
 
@@ -535,7 +535,7 @@ Las causas más comunes incluyen:
 
 En muchos casos, el problema es confiar en fuentes externas sin aplicar controles criptográficos.
 
-# Impacto potencial
+## Impacto potencial
 
 Las consecuencias pueden ser críticas:
 
@@ -548,7 +548,7 @@ Las consecuencias pueden ser críticas:
 
 Este tipo de vulnerabilidad puede permitir que un atacante inyecte código malicioso que se distribuya automáticamente a todos los usuarios del sistema comprometido.
 
-#02 ¿Cómo explotan los atacantes esta vulnerabilidad?
+## 02 ¿Cómo explotan los atacantes esta vulnerabilidad?
 
 Los atacantes explotan la vulnerabilidad aprovechando que la aplicación no verifica la integridad del software o de los datos que utiliza. Cuando un sistema descarga actualizaciones, dependencias o componentes externos sin validar su firma digital o su hash, un atacante puede modificar esos archivos e introducir código malicioso. También pueden comprometer repositorios, servidores de actualización o pipelines de CI/CD para insertar código antes de que el software sea distribuido. En otros casos, manipulan datos serializados que la aplicación procesa sin validación, logrando ejecutar instrucciones maliciosas. En todos los escenarios, el ataque funciona porque el sistema confía en código o información externa sin comprobar su autenticidad, lo que puede permitir ejecución remota de código, control del sistema o distribución masiva de malware.
 
@@ -571,13 +571,13 @@ Otro caso altamente relevante fue el ataque contra Kaseya, específicamente su p
 https://en.wikipedia.org/wiki/Kaseya
 https://en.wikipedia.org/wiki/Kaseya_VSA_ransomware_attack
 
-# Herramientas comunes:
+## Herramientas comunes:
 
 - Frameworks de explotación y post-explotación, como Metasploit, para ejecutar cargas maliciosas una vez insertado el código en una actualización o dependencia comprometida.
 - Herramientas de análisis y manipulación de tráfico, como Burp Suite o Wireshark, para interceptar y modificar actualizaciones si no están protegidas adecuadamente.
 - Herramientas de deserialización maliciosa, como ysoserial, que generan payloads diseñados para explotar deserialización insegura en aplicaciones Java.
 
-# 03 Mejores practicas de prevención y mitigación
+## 03 Mejores practicas de prevención y mitigación
 
 Para prevenir y mitigar la vulnerabilidad es fundamental implementar mecanismos que garanticen la integridad y autenticidad del software y los datos. Se deben utilizar firmas digitales, hashes u otros controles criptográficos para verificar que las actualizaciones, archivos y componentes provienen de fuentes legítimas y no han sido alterados.
 
