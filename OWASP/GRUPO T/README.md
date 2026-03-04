@@ -232,15 +232,220 @@ Ataque a SolarWinds, Cisco, FORTINET
 - Implementar DevSecOps en CI/CD
 
 
-A04:2025 Cryptographic Failures
+## A04:2025 Cryptographic Failures
+
+<p align="center">
+  <img src="images/Encripcion.png" width="600">
+</p>
+
 Descripción:  
 Esta vulnerabilidad ocurre cuando los datos no se cifran correctamente en tránsito o en reposo, o cuando se utilizan mecanismos criptográficos débiles. La ausencia de cifrado en la capa de transporte (capa 4) o de protección adicional para información sensible en la capa de aplicación (capa 7) puede permitir que atacantes intercepten, roben o manipulen datos críticos como contraseñas, números de tarjeta o información personal.
 
+El impacto puede incluir fuga de información, incumplimiento normativo (como el Reglamento General de Protección de Datos (RGPD) o PCI DSS) y graves daños financieros y reputacionales para la organización.
+
+## Naturaleza del problema: 
+
+- Se usan algoritmos débiles u obsoletos (ej: MD5, SHA1).
+- No se cifra información sensible.
+- Se almacenan contraseñas sin hash.
+- Se usan claves débiles o mal gestionadas.
+- No se protege correctamente la información en tránsito (HTTP en vez de HTTPS).
+- Problema técnico en la protección de datos.
+
+## Causas comunes:
+
+- Desconocimiento de buenas prácticas.
+- Uso de librerías antiguas.
+- Configuración incorrecta de TLS.
+- Mala gestión de llaves criptográficas.
+
+## Impacto
+
+- Robo de contraseñas.
+- Filtración de datos personales.
+- Incumplimiento legal (protección de datos).
+- Ataques de suplantación de identidad.
+
+## Métodos de Explotación
+
+# Ataques Man-in-the-Middle (MITM)
+
+- Si el tráfico no está cifrado correctamente, el atacante intercepta la comunicación.
+- Herramientas: Wireshark, Burp Suite
+
+## Fuerza bruta sobre hashes débiles
+
+- -Si se almacenan contraseñas con MD5 o SHA1:
+- Herramientas: Hashcat, John the Ripper
+
+##Robo de base de datos mal cifrada
+
+Si no hay cifrado en reposo, el atacante obtiene datos en texto plano. Muchas brechas de seguridad han ocurrido porque las empresas almacenaban contraseñas: En texto plano, o Con algoritmos débiles como MD5 o SHA1, Sin aplicar “salt”, Sin funciones de hash adaptativas. 
+
+¿Qué significa esto?
+
+Cuando un atacante logra acceder a la base de datos (por ejemplo, mediante SQL Injection), puede encontrar algo así:
+
+usuario: admin
+password: 123456
+Si la contraseña está en texto plano, el atacante obtiene acceso inmediato.
+Peor aún, si está hasheada con MD5: 5f4dcc3b5aa765d61d8327deb882cf99
+
+Ese hash puede ser descifrado en segundos usando herramientas como:
+
+- Hashcat
+- Rainbow Tables
+
+Mejores practicas: 
+Usar algoritmos fuertes
+ AES-256: Se usa para cifrado simétrico (misma clave para cifrar y descifrar).
+
+## A05:2025 - Inyección
+
+<p align="center">
+  <img src="images/Inyeccion.png" width="600">
+</p>
 
 
+La vulnerabilidad de inyección ocurre cuando una aplicación envía datos no validados a un intérprete (SQL, sistema operativo, LDAP, etc.)
+
+## Causas
+
+- Concatenación directa en consultas SQL.
+- Falta de validación.
+- Falta de parametrización.
+
+## Impacto
+
+- Acceso no autorizado a base de datos.
+- Modificación o eliminación de datos.
+- Control total del servidor.
 
 
+## Métodos de Explotación
 
+- SQL Injection
+
+Ejemplo vulnerable:
+SELECT * FROM usuarios WHERE usuario = 'admin' AND password = '123';
+Ataque: ' OR '1'='1
+Herramientas:
+SQLMap
+Burp Suite
+OWASP ZAP
+
+- Command Injection:
+
+Entrada mal validada: ping {input_usuario}
+Ataque: 8.8.8.8; rm -rf /
+
+- NoSQL Injection:
+En MongoDB: { "$ne": null }
+
+
+## Mejores Prácticas 
+
+Usar consultas parametrizadas (Prepared Statements)
+
+- Ejemplo seguro:
+SELECT * FROM usuarios WHERE usuario = ? AND password = ?
+Validar y sanitizar entradas
+Principio de mínimo privilegio en BD
+ WAF (Firewall de Aplicaciones Web)
+ Escaneo SAST y DAST
+
+
+## A06:2025 - Insecure Design
+
+
+<p align="center">
+  <img src="images/Inyeccion.png" width="600">
+</p>
+
+El Diseño Inseguro no es una vulnerabilidad puntual de código, sino una falla estructural en la forma en que el sistema fue concebido.
+
+
+- La arquitectura no incorpora controles de seguridad desde el inicio.
+
+- La lógica del negocio permite comportamientos abusivos.
+
+- No se anticiparon escenarios de ataque.
+
+## Naturaleza
+
+Es una vulnerabilidad de arquitectura y lógica de negocio, no técnica aislada relacionada con:
+
+- Diseño de flujos
+
+- Control de acceso
+
+- Procesos transaccionales
+
+- Gestión de estados
+
+- Confianza excesiva en el cliente
+
+## Impacto
+
+El impacto suele ser crítico porque afecta la base del sistema.
+
+
+- Bypass de autenticación
+
+- Escalamiento de privilegios
+
+- Exposición masiva de datos
+
+- Fraudes financieros
+
+- Daño reputacional severo
+
+- Sanciones legales
+
+
+## Métodos de Explotación
+
+- Falta de control de autorización (Broken Access Control por diseño)
+Ejemplo:
+/api/usuarios/123
+
+
+- Falta de límites en transacciones
+
+Si el diseño no establece controles como:
+
+- Límite por hora
+
+- Límite por día
+
+- Verificación adicional en operaciones sensibles
+
+
+- Manipulación de lógica de negocio
+
+Ejemplo típico:
+
+https://tienda.com/checkout?precio=100
+
+el atacante puede modificarlo: https://tienda.com/checkout?precio=1
+
+- Confianza excesiva en el lado cliente, errores: 
+
+Validaciones solo en JavaScript
+
+Restricciones de rol ocultas en frontend
+
+Controles de acceso visibles pero no aplicados en backend
+
+
+## Mejores Prácticas
+
+- Modelado de amenazas (STRIDE)
+- Principio de mínimo privilegio
+- Validación estricta del lado servidor
+- Controles de autorización centralizados
+- Revisión de arquitectura de seguridad
+- Integrar seguridad en DevSecOps
 
 
 ## A07:2021 - Identification and Authentication Failures
