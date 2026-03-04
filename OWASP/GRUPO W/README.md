@@ -19,6 +19,8 @@
   <img src="image/images.jfif" width="200">
 </p
 
+Aplica políticas que impiden a los usuarios actuar fuera de sus permisos previstos. Las fallas suelen provocar la divulgación no autorizada de información, la modificación o destrucción de todos los datos, o la realización de una función empresarial fuera de los límites del usuario.
+
 A01 – Broken Access Control
 
 A02 – Security Misconfiguration
