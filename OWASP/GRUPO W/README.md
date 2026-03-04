@@ -24,7 +24,9 @@ Aplica políticas que impiden a los usuarios actuar fuera de sus permisos previs
 
 # Configuración incorrecta de seguridad
 
-
+<p align="center">
+  <img src="image/4.jfif" width="200">
+</p
 
 Una mala configuración de seguridad ocurre cuando un sistema, una aplicación o un servicio en la nube se configura incorrectamente desde una perspectiva de seguridad, lo que crea vulnerabilidades.
 
