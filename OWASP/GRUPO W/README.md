@@ -48,9 +48,9 @@ Los obstáculos anteriores, como el rendimiento de la CPU y la gestión de clave
 # Inyección
 
 <p align="center">
-  <img src="2.png" width="600">
+  <img src="2.png" width="200">
 </p
-
+  
 Falla de la aplicación que permite que una entrada de usuario no confiable se envíe a un intérprete (por ejemplo, un navegador, una base de datos, la línea de comandos) y hace que el intérprete ejecute partes de esa entrada como comandos.
 
 # Diseño inseguro
