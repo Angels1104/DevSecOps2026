@@ -7,7 +7,9 @@
 * Jonathan Garzon
 * ## Tema del trabajo
 **Investigación sobre el OWASP Top 10**
-![Descripción de la imagen](logo.png)
+<p align="center">
+  <img src="logo.png" width="500"/>
+</p>
 
 # 🔐 OWASP Top 10 (2025) – Lista oficial
 
