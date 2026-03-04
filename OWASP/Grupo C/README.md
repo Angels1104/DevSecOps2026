@@ -242,6 +242,7 @@ CWE-117 - CWE-532 - CWE-778
 
 # A10:2025 - Mishandling of Exceptional Conditions
 CWE-209 Generation of Error Message Containing Sensitive Information
+
 CWE-234 Failure to Handle Missing Parameter
 
 Ocurre cuando hay fallos a nivel de software, estos fallos ocrren cuando el software no logra manejar eventos inesperados. 
