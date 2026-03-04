@@ -241,10 +241,15 @@ CWE-117 - CWE-532 - CWE-778
 ---
 
 # A10:2025 - Mishandling of Exceptional Conditions
+CWE-209 Generation of Error Message Containing Sensitive Information
+CWE-234 Failure to Handle Missing Parameter
 
+Ocurre cuando hay fallos a nivel de software, estos fallos ocrren cuando el software no logra manejar eventos inesperados. 
  ### Métodos de explotación: 
-
+       - Injection, al mostrar errores o revelar información confidencial, el atacante puede utilizar inyección de SQL. 
+       - DoS, si el softwware no cuenta con las excepciones requeridas puede quedar en un consumo infinito de recursos hasta dejarlos indisponibles
  ### Ejemplo ataque real:
+       -
    
  ### Prevención y mitigación:  
 
