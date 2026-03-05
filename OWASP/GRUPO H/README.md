@@ -183,29 +183,30 @@ Ocurre cuando una aplicación no controla correctamente qué recursos puede acce
 
 ---
 
-## 7.Injection
+## 7.Software or Data Integrity Failures
 
 ### Descripción
 
-Se produce cuando una aplicación ejecuta código malicioso enviado por un atacante.
+Esta vulnerabilidad ocurre cuando una aplicación no verifica correctamente la integridad del software o de los datos que utiliza. Esto puede permitir que un atacante modifique código, dependencias o datos durante el proceso de desarrollo, actualización o ejecución de la aplicación.
 
----
+<p align="center">
+  <img src="Imagenes/Software or Data Integrity Failures.png" width="400">
+</p>
 
 ### Métodos de Explotación
 
-- SQL Injection.
-- Command Injection.
-- LDAP Injection.
-- Cross-site scripting (XSS).
+- Manipulación de dependencias externas: insertar código malicioso en librerías o paquetes utilizados por la aplicación.
+- Ataques a la cadena de suministro de software: comprometer repositorios o herramientas de construcción.
+- Inyección de código en procesos CI/CD: modificar scripts o configuraciones del pipeline de despliegue.
 
 ---
 
 ### Prevención y mitigacion 
 
-- Validación de entradas.
-- Uso de consultas parametrizadas.
-- Sanitización de datos.
-- Implementación de WAF.
+- Verificar la integridad de software y dependencias mediante firmas digitales o hashes.
+- Utilizar repositorios de dependencias confiables.
+- Implementar controles de seguridad en pipelines CI/CD.
+- Mantener las dependencias actualizadas y monitorear vulnerabilidades.
 
 ---
 
@@ -294,6 +295,7 @@ Permite a un atacante hacer que el servidor realice solicitudes a recursos inter
 - https://owasp.org/Top10/
 - https://www.checkpoint.com/cyber-hub/cloud-security/what-is-application-security-appsec/owasp-top-10-vulnerabilities/
 - https://www.akamai.com/blog/security/owasp-top-10-api-security-risks
+
 
 
 
