@@ -1,16 +1,15 @@
 # Integrantes
 
-Leidy Dayana Avendaño Moreno
-
-Jeisson Andres Hernandez Martinez
-
-Michael Giovanny Sierra Leon
+|---|--------|
+|    |Leidy Dayana Avendaño Moreno|
+|    |Jeisson Andres Hernandez Martinez|
+|    |Michael Giovanny Sierra Leon|
 <p align="center">
   <img src="Images/Intro OSWASP Top 10.png" width="600">
 </p>
 
 
-[A01-Broken Access Control](Files/1.md)
+
 # A01:2025 Broken Access Control.
 
 <p align="center">
