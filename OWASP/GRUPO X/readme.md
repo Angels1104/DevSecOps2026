@@ -980,7 +980,7 @@ Es la base de toda la seguridad del sistema.
 
 #  A08 – Software or Data Integrity Failures (Fallos de integridad de software o datos)
 
-
+![enter image description here](https://miro.medium.com/v2/resize:fit:1400/1*iW1BhEBNeucfA-SbHNUT4w.png)
 
 ### ¿Qué es?
 Ocurre cuando el sistema **confía en software, actualizaciones, dependencias, datos o pipelines** sin verificar su integridad.  
@@ -1091,6 +1091,7 @@ C --> A
 ✅ Validación estricta de URL
 
 ---
+
 
 
 
