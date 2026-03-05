@@ -1,4 +1,4 @@
-## Integrantes
+# Integrantes
 
 1. Milton Beltrán
 2. Juan Mesa
@@ -70,6 +70,7 @@ Ocurre cuando una aplicación no impone correctamente las reglas que limitan lo 
 - Uso de roles con control de acceso fuerte y pruebas automatizadas de autorización.
 
 ---
+
 
 
 
