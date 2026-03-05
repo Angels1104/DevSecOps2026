@@ -269,7 +269,7 @@ Se produce cuando no se registran ni monitorean eventos de seguridad correctamen
 Permite a un atacante hacer que el servidor realice solicitudes a recursos internos o externos.
 
 <p align="center">
-  <img src="Imagenes/Server Side Request Forger.png" width="400">
+  <img src="Imagenes/Server Side Request Forgery.png" width="400">
 </p>
 
 ### Métodos de Explotación
@@ -295,6 +295,7 @@ Permite a un atacante hacer que el servidor realice solicitudes a recursos inter
 - https://owasp.org/Top10/
 - https://www.checkpoint.com/cyber-hub/cloud-security/what-is-application-security-appsec/owasp-top-10-vulnerabilities/
 - https://www.akamai.com/blog/security/owasp-top-10-api-security-risks
+
 
 
 
