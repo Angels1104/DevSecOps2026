@@ -44,6 +44,8 @@ OWASP (Open Web Application Security Project) es una organización sin fines de 
 Más información:  
 https://owasp.org/www-project-top-ten/
 
+[Ver historia de OWASP](historia_owasp.md)
+
 ---
 
 # 🛡 OWASP Top 10 (Edición 2021)
