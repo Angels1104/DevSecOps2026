@@ -524,8 +524,184 @@ El problema no es “el código” solamente, sino **cómo se desplegó o config
 - Se verificó que no se expongan errores con detalles sensibles.
 - Se limitó el acceso a recursos sensibles y se controlaron permisos.
 
+---
+# A03: Injection
 
+![Ingrese la descripción de la imagen aquí]( https://www.google.com/imgres?q=imagen%20de%20sql%20Injection&imgurl=https://www.cloudflare.com/img/learning/security/threats/sql-injection-attack/sql-injection-infographic.png&imgrefurl=https://www.cloudflare.com/es-es/learning/security/threats/sql-injection/&docid=4LUej9E2DFoiVM&tbnid=BKt16X_JjJqDEM&vet=12ahUKEwjWlI-QvoeTAxV9STABHbKZOfsQnPAOegQIERAB..i&w=1459&h=503&hcb=2&ved=2ahUKEwjWlI-QvoeTAxV9STABHbKZOfsQnPAOegQIERAB )![Ingrese la descripción de la imagen aquí]( https://www.google.com/imgres?q=imagen%20de%20sql%20Injection&imgurl=https://www.cloudflare.com/img/learning/security/threats/sql-injection-attack/sql-injection-infographic.png&imgrefurl=https://www.cloudflare.com/es-es/learning/security/threats/sql-injection/&docid=4LUej9E2DFoiVM&tbnid=BKt16X_JjJqDEM&vet=12ahUKEwjWlI-QvoeTAxV9STABHbKZOfsQnPAOegQIERAB..i&w=1459&h=503&hcb=2&ved=2ahUKEwjWlI-QvoeTAxV9STABHbKZOfsQnPAOegQIERAB )
 
+## Descripción de la vulnerabilidad
+
+La vulnerabilidad **Injection** ocurre cuando una aplicación envía datos no confiables a un intérprete como parte de un comando o consulta.
+
+Incluye:
+
+* SQL Injection (SQLi)
+* Cross-Site Scripting (XSS)
+* Command Injection
+* LDAP Injection
+* NoSQL Injection
+
+### 🔎 Naturaleza
+
+El problema ocurre cuando:
+
+* No hay validación de entrada
+* No se utilizan consultas parametrizadas
+* Se construyen consultas dinámicamente
+* No hay sanitización adecuada
+
+### 🎯 Impacto Potencial
+
+* Robo de bases de datos completas
+* Bypass de autenticación
+* Ejecución remota de comandos
+* Escalada de privilegios
+* Compromiso total del sistema
+
+---
+
+## Métodos de Explotación
+
+### SQL Injection (Ejemplo real)
+
+Input vulnerable:
+
+```sql
+SELECT * FROM users WHERE username = '$user' AND password = '$pass';
+```
+
+Ataque:
+
+```sql
+' OR '1'='1
+```
+
+Consulta resultante:
+
+```sql
+SELECT * FROM users WHERE username = '' OR '1'='1';
+```
+
+➡ Permite login sin credenciales válidas.
+
+---
+
+### 🛠 Herramientas utilizadas
+
+* SQLmap
+* Burp Suite
+* Metasploit
+
+---
+
+## 📊 Diagrama de Flujo – SQL Injection
+
+```mermaid
+flowchart TD
+A[Usuario malicioso] --> B[Envía input manipulado]
+B --> C[Aplicación vulnerable]
+C --> D[Base de datos]
+D --> E[Ejecuta consulta manipulada]
+E --> F[Devuelve datos sensibles]
+F --> A
+```
+
+---
+
+## Mejores Prácticas de Prevención
+
+✅ Usar consultas parametrizadas (Prepared Statements)
+✅ ORM seguros
+✅ Validación estricta de entradas
+✅ Escapar caracteres especiales
+✅ Principio de mínimo privilegio en base de datos
+✅ WAF (Web Application Firewall)
+
+---
+
+# 🟠 A04: Insecure Design
+
+![Ingrese la descripción de la imagen aquí](https://www.google.com/imgres?q=imagen%20de%20Insecure%20Design&imgurl=https://miro.medium.com/v2/resize:fit:1400/1*V3MCqAeiY2lCOw8Re5lAVw.png&imgrefurl=https://medium.com/@shivamsharma.ss484/owasp-a04-2021-insecure-design-34ef11e83e6f&docid=8YLOpVheSbUvzM&tbnid=tO9x6A8r53wsUM&vet=12ahUKEwixuKHiv4eTAxU_SjABHbxKBekQnPAOegQIGRAB..i&w=1385&h=453&hcb=2&ved=2ahUKEwixuKHiv4eTAxU_SjABHbxKBekQnPAOegQIGRAB)
+
+## 1️⃣ Descripción
+
+“Insecure Design” se refiere a fallos estructurales en la arquitectura del sistema.
+
+⚠ No es un bug de código.
+⚠ Es un error conceptual en el diseño.
+
+Ejemplos:
+
+* Falta de control de tasa (rate limiting)
+* No aplicar separación de privilegios
+* Ausencia de validación de negocio
+* Confianza implícita entre servicios
+
+---
+
+## 🔎 Naturaleza
+
+Ocurre cuando:
+
+* No se aplica modelado de amenazas
+* No se usa arquitectura Zero Trust
+* No se evalúan riesgos en fase de diseño
+* No se realizan revisiones de seguridad tempranas
+
+---
+
+## 🎯 Impacto
+
+* Exposición masiva de datos
+* Escalamiento horizontal de ataques
+* Ataques automatizados
+* Fraude financiero
+
+---
+
+## 2️⃣ Métodos de Explotación
+
+### 🔥 Ejemplo real: Falta de Rate Limiting
+
+Si un login no limita intentos:
+
+Ataque:
+
+* Fuerza bruta
+* Credential stuffing
+
+Herramientas:
+
+* Hydra
+* Burp Suite
+
+---
+
+## 📊 Diagrama – Insecure Design (Fuerza Bruta)
+
+```mermaid
+flowchart TD
+A[Atacante] --> B[Envía miles de intentos]
+B --> C[Aplicación sin Rate Limit]
+C --> D[Autenticación exitosa]
+D --> E[Cuenta comprometida]
+```
+
+---
+
+## 3️⃣ Prevención y Mitigación
+
+✅ Modelado de amenazas (STRIDE)
+✅ Arquitectura Zero Trust
+✅ Rate Limiting
+✅ Control de acceso basado en roles (RBAC)
+✅ Validación de reglas de negocio
+✅ Security by Design
+✅ DevSecOps desde CI/CD
+
+---
+
+---
 
 # 7. A07: Authentication Failures (Fallos de Autenticación)
 
@@ -835,37 +1011,84 @@ Ejemplo: instalar paquetes sin verificación, actualizaciones no firmadas, CI/CD
 - Se revisaron vulnerabilidades de dependencias (SCA).
 - Se propusieron controles en pipeline (revisión, permisos, validación).
 
+---
 
+A10: Server-Side Request Forgery (SSRF)
 
+![Ingrese la descripción de la imagen aquí](https://www.google.com/imgres?q=imagen%20de%20Server-Side%20Request%20Forgery%20%28SSRF%29&imgurl=https://media.licdn.com/dms/image/v2/D4D12AQEdv6qTMsDaqg/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1731662039422?e=2147483647&v=beta&t=Tz5aBcJ5DjZ6EPj70RACFpBcscEHFoRTtTmCEWGAAmc&imgrefurl=https://www.linkedin.com/pulse/server-side-request-forgery-ssrf-understanding-threat-real-world-wpu1f&docid=pT913o1XIDZ8gM&tbnid=s7AjN0Pa2qAI_M&vet=12ahUKEwjCo4bGwIeTAxXPRDABHaSoE1UQnPAOegQIFhAB..i&w=1280&h=720&hcb=2&ved=2ahUKEwjCo4bGwIeTAxXPRDABHaSoE1UQnPAOegQIFhAB)
 
+SSRF permite a un atacante forzar al servidor a realizar solicitudes HTTP hacia destinos internos o externos.
 
+El atacante controla una URL que el servidor consulta.
 
+---
 
+## Naturaleza
 
+Sucede cuando:
 
+* La aplicación permite enviar URLs arbitrarias
+* No se validan direcciones IP internas
+* No hay filtrado de protocolos
 
+---
 
+## 🎯 Impacto
 
+* Acceso a servicios internos
+* Robo de credenciales cloud
+* Escaneo interno de red
+* Compromiso de infraestructura
 
+En entornos cloud es crítico.
 
+---
 
+## Métodos de Explotación
 
+### Ejemplo en Cloud (Metadata Service)
 
+En AWS:
 
+```
+http://169.254.169.254/latest/meta-data/
+```
 
+Un atacante puede obtener credenciales IAM si la aplicación consulta esa URL.
 
+---
 
+### 🛠 Herramientas
 
+* Burp Suite
+* Nmap
+* SSRFmap
 
+---
 
+## 📊 Diagrama – SSRF
 
+```mermaid
+flowchart TD
+A[Atacante] --> B[Envía URL maliciosa]
+B --> C[Servidor vulnerable]
+C --> D[Servicio interno]
+D --> E[Datos sensibles]
+E --> C
+C --> A
+```
 
+---
 
+## Prevención y Mitigación
 
+✅ Lista blanca de dominios permitidos
+✅ Bloqueo de IPs internas (169.254.169.254)
+✅ Deshabilitar protocolos innecesarios (file://, gopher://)
+✅ Implementar firewall de salida
+✅ Separación de redes
+✅ Tokens de metadata protegidos (IMDSv2 en AWS)
+✅ Validación estricta de URL
 
-
-
-
-
-
+---
 
