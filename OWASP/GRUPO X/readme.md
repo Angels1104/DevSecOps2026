@@ -494,6 +494,8 @@ Un control de acceso deficiente puede permitir:
 
 # A02 – Security Misconfiguration (Mala configuración de seguridad)
 
+![enter image description here](https://cheapsslsecurity.com/blog/wp-content/uploads/2022/06/security-misconfiguration-example.png)
+
 ### ¿Qué es?
 Ocurre cuando una aplicación, servidor o servicio está configurado de forma insegura (por ejemplo: credenciales por defecto, permisos abiertos, errores mostrando demasiada información, CORS mal configurado, paneles/admin expuestos, etc.).  
 El problema no es “el código” solamente, sino **cómo se desplegó o configuró** el sistema.
@@ -1089,6 +1091,7 @@ C --> A
 ✅ Validación estricta de URL
 
 ---
+
 
 
 
