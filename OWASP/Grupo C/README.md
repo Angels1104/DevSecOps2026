@@ -1,9 +1,9 @@
 # Integrantes
 
-|---|--------|
-|    |Leidy Dayana Avendaño Moreno|
-|    |Jeisson Andres Hernandez Martinez|
-|    |Michael Giovanny Sierra Leon|
+|#|Integrantes|
+|  1  |Leidy Dayana Avendaño Moreno|
+|  2 |Jeisson Andres Hernandez Martinez|
+|  3  |Michael Giovanny Sierra Leon|
 <p align="center">
   <img src="Images/Intro OSWASP Top 10.png" width="600">
 </p>
