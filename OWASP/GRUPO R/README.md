@@ -195,4 +195,6 @@ El **OWASP Top 10** es un marco fundamental para proteger aplicaciones web contr
  
 **Integrantes del grupo**
 - Juan Lara
+- id 715655
 - Angel Ahumada
+- Id 701522
