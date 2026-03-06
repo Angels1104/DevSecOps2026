@@ -216,6 +216,10 @@ La integración de seguridad dentro del ciclo de vida del desarrollo permite:
 
 ■ Una de las principales categorias mas criticas del OWASP se presenta al momento de realizar la implementación de principios como el mínimo privilegio, la autenticación multifactor y la correcta validación de permisos con el fin de reducir significativamente el riesgo de accesos no autorizados y la exposición de información sensible.
 
+■ La protección de los datos y la correcta configuración de los sistemas son elementos clave para evitar posibles fallos.
+Esto se peude evitar implementando buenas prácticas de cifrado, gestión segura de claves, actualizaciones constantes y configuraciones de buenas practicas para garantizar que la infraestructura y las aplicaciones mantengan niveles adecuados de protección frente a posibles ataques.
+
+
 ![Diagrama OWASP](images/process.png)
 
 *Fuente: OWASP Foundation (2021)*
