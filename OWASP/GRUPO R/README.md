@@ -112,7 +112,7 @@ La seguridad en las aplicaciones web es esencial para prevenir riesgos de seguri
  
 ### 🔶 Vulnerabilidad 8: **A8 - Deserialización insegura**
 <p align="center">
-<img src="IMAGENES/deserialization.png" width="600">
+<img src="IMAGENES/deserialization.jpg" width="600">
 </p>
 
 - **Descripción**: Ejecución de código malicioso desde datos deserializados sin control.
@@ -138,7 +138,7 @@ La seguridad en las aplicaciones web es esencial para prevenir riesgos de seguri
  
 ### 🟠 Vulnerabilidad 10: **A10 - Insuficiente registro y monitoreo**
 <p align="center">
-<img src="IMAGENES/logging.png" width="600">
+<img src="IMAGENES/logging.jpg" width="600">
 </p>
 
 - **Descripción**: La falta de registro adecuado de eventos de seguridad y monitoreo puede dificultar la detección de incidentes.
