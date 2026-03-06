@@ -530,21 +530,378 @@ El problema no es “el código” solamente, sino **cómo se desplegó o config
 
 # A03 Software Supply Chain Failures
 
+## Introducción
 
+La vulnerabilidad **A03:2025 – Software Supply Chain Failures** del **OWASP** describe los riesgos de seguridad que ocurren cuando una aplicación depende de **componentes externos inseguros o comprometidos** dentro de su cadena de suministro de software.
 
+El software moderno rara vez se desarrolla completamente desde cero. En cambio, depende de:
 
+* Bibliotecas de código abierto
+* Frameworks de terceros
+* Gestores de paquetes
+* Servicios en la nube
+* Pipelines de CI/CD
+* Contenedores e imágenes base
 
+Si **cualquiera de estos elementos es comprometido**, toda la aplicación puede verse afectada.
 
+Este tipo de ataques se ha vuelto crítico debido a su **alto impacto**, ya que una única dependencia vulnerable puede afectar **miles de organizaciones simultáneamente**.
 
+---
 
+# 1. Descripción de la Vulnerabilidad
 
+### ¿Qué es una falla en la cadena de suministro de software?
 
+Una **falla en la cadena de suministro** ocurre cuando una vulnerabilidad o código malicioso entra al sistema **a través de componentes externos**, en lugar del código propio de la aplicación.
 
+En términos simples:
 
+```
+Confías en un componente externo
+        ↓
+El componente es comprometido
+        ↓
+Tu aplicación también queda comprometida
+```
 
+---
 
+### Causas comunes
 
+Las fallas en la cadena de suministro suelen ocurrir cuando:
 
+* No se controlan las versiones de dependencias
+* Se usan bibliotecas obsoletas o sin mantenimiento
+* No se monitorean vulnerabilidades en dependencias
+* Se descargan componentes de fuentes no confiables
+* La seguridad del pipeline CI/CD es débil
+* No se implementa control de cambios
+* No existe un inventario de dependencias
+
+---
+
+### Componentes de la cadena de suministro
+
+```
+Desarrollador
+     │
+     ▼
+Repositorio de código
+     │
+     ▼
+Dependencias externas
+     │
+     ▼
+Pipeline CI/CD
+     │
+     ▼
+Compilación y artefactos
+     │
+     ▼
+Aplicación desplegada
+```
+
+Cualquier punto del proceso puede ser comprometido.
+
+---
+
+### Impacto potencial
+
+Las consecuencias pueden ser críticas:
+
+* Ejecución remota de código
+* Robo de credenciales
+* Instalación de malware
+* Ransomware
+* Puertas traseras persistentes
+* Compromiso masivo de organizaciones
+
+Un solo componente comprometido puede afectar **miles de aplicaciones simultáneamente**.
+
+---
+
+# 2. Métodos de Explotación
+
+Los atacantes generalmente **no atacan directamente la aplicación**, sino los **componentes de los que depende**.
+
+---
+
+### Flujo general de un ataque de cadena de suministro
+
+```mermaid
+flowchart TD
+
+A[Atacante] --> B[Compromete dependencia]
+B --> C[Dependencia se publica en repositorio]
+C --> D[Desarrollador instala o actualiza dependencia]
+D --> E[Pipeline CI/CD compila la aplicación]
+E --> F[Software infectado se despliega]
+F --> G[Usuarios o sistemas comprometidos]
+```
+
+---
+
+## Técnicas comunes de ataque
+
+### 1. Dependencias comprometidas
+
+Los atacantes insertan código malicioso en bibliotecas populares.
+
+Ejemplo real:
+
+* Vulnerabilidad **CVE-2021-44228** conocida como **Log4Shell**
+
+Impacto:
+
+* Ejecución remota de código
+* Compromiso masivo de servidores
+
+---
+
+### 2. Dependency Confusion
+
+El atacante publica un paquete con el mismo nombre que una biblioteca interna.
+
+### Flujo de ataque
+
+```mermaid
+flowchart TD
+
+A[Empresa usa librería interna company-auth]
+B[Atacante publica paquete público company-auth]
+C[Sistema de build busca dependencias]
+D[Descarga paquete malicioso]
+E[Malware entra en la aplicación]
+
+A --> C
+B --> C
+C --> D
+D --> E
+```
+
+---
+
+### 3. Typosquatting
+
+El atacante crea paquetes con nombres similares.
+
+Ejemplo:
+
+```
+requests  ← paquete legítimo
+reqeusts  ← paquete malicioso
+```
+
+Cuando el desarrollador comete un error tipográfico, instala malware.
+
+---
+
+### 4. Pipeline CI/CD comprometido
+
+Si el atacante obtiene acceso al servidor de compilación:
+
+```
+Atacante accede al CI/CD
+        ↓
+Modifica el proceso de build
+        ↓
+Inserta código malicioso
+        ↓
+El software final se distribuye infectado
+```
+
+---
+
+### 5. Extensiones o herramientas maliciosas
+
+Ejemplos:
+
+* extensiones de IDE
+* plugins
+* imágenes de contenedor
+
+Estas herramientas pueden robar:
+
+* tokens
+* claves API
+* credenciales
+
+---
+
+## Ejemplos de ataques reales
+
+### Ataque SolarWinds
+
+Uno de los ataques más graves de la historia.
+
+* los atacantes comprometieron el sistema de compilación
+* insertaron malware en actualizaciones firmadas
+
+Resultado:
+
+* más de **18.000 organizaciones comprometidas**
+
+---
+
+### Vulnerabilidad Log4Shell
+
+Una vulnerabilidad crítica en la biblioteca **Log4j**.
+
+Impacto:
+
+* ejecución remota de código
+* ataques de ransomware
+* criptominería
+
+Muchas organizaciones **ni siquiera sabían que usaban Log4j** debido a dependencias transitivas.
+
+---
+
+### Gusano npm Shai-Hulud (2025)
+
+Ataque autopropagable que:
+
+* infectaba paquetes npm
+* robaba tokens
+* publicaba nuevas versiones maliciosas automáticamente
+
+---
+
+## 3. Mejores Prácticas de Prevención y Mitigación
+
+La seguridad de la cadena de suministro requiere **múltiples capas de protección**.
+
+---
+
+### Flujo de seguridad recomendado
+
+```mermaid
+flowchart TD
+
+A[Inventario de dependencias] --> B[SBOM]
+B --> C[Escaneo de vulnerabilidades]
+C --> D[Verificación de firmas]
+D --> E[Pipeline CI/CD seguro]
+E --> F[Monitoreo continuo]
+F --> G[Actualización y parches]
+```
+
+---
+
+### 1. Mantener una SBOM (Software Bill of Materials)
+
+Una **SBOM** es una lista completa de todos los componentes del software.
+
+Debe incluir:
+
+* dependencias directas
+* dependencias transitivas
+* versiones
+* fuentes
+
+Herramientas:
+
+* CycloneDX
+* SPDX
+
+---
+
+### 2. Escaneo continuo de dependencias
+
+Automatizar la detección de vulnerabilidades.
+
+Herramientas recomendadas:
+
+* OWASP Dependency-Check
+* Snyk
+* Dependabot
+* Trivy
+
+---
+
+### 3. Usar fuentes confiables
+
+Buenas prácticas:
+
+* descargar solo de repositorios oficiales
+* verificar firmas digitales
+* verificar hashes
+
+---
+
+### 4. Seguridad en CI/CD
+
+Medidas importantes:
+
+* habilitar MFA
+* restringir accesos
+* separar roles de desarrollo y despliegue
+* firmar artefactos de compilación
+* registrar logs inmutables
+
+---
+
+### 5. Aplicar principio de mínimo privilegio
+
+Ningún sistema o usuario debe tener más permisos de los necesarios.
+
+Esto aplica a:
+
+* desarrolladores
+* pipelines
+* repositorios
+* servidores
+
+---
+
+### 6. Gestión de parches
+
+Las organizaciones deben:
+
+* monitorear CVE
+* actualizar dependencias regularmente
+* eliminar bibliotecas sin mantenimiento
+
+---
+
+### 7. Implementaciones seguras
+
+Evitar desplegar actualizaciones en todos los sistemas al mismo tiempo.
+
+Utilizar:
+
+* despliegues canarios
+* despliegues por etapas
+
+Esto limita el impacto si un componente está comprometido.
+
+---
+
+## Conclusión
+
+Las **Software Supply Chain Failures** representan uno de los riesgos más críticos en la seguridad moderna.
+
+El software actual depende fuertemente de:
+
+* código abierto
+* servicios externos
+* automatización
+* herramientas de desarrollo
+
+Esto amplía significativamente la superficie de ataque.
+
+Por ello, proteger la cadena de suministro requiere:
+
+* inventario completo de dependencias
+* verificación de integridad
+* seguridad en CI/CD
+* monitoreo continuo
+* adopción de principios de **Zero Trust**
+
+Las organizaciones que implementan estas prácticas reducen significativamente la probabilidad de sufrir **ataques a gran escala**.
+
+---
 
 # A04: Cryptographic Failures
 
@@ -690,19 +1047,6 @@ Usar gestores de secretos como:
 
 Las **Cryptographic Failures** permiten que atacantes accedan a información sensible.
 El uso correcto de **HTTPS, cifrado fuerte y gestión segura de claves** reduce significativamente este riesgo.
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ---
 
@@ -1697,3 +2041,1995 @@ El atacante explota el sistema sin que se generen registros auditables ni alerta
 ---
 
 # A10: Mishandling of Exceptional Conditions
+---
+
+## 1. Descripción Breve de la Vulnerabilidad
+
+### ¿Qué es?
+
+**A10:2025 - Mishandling of Exceptional Conditions** (Manejo Inadecuado de Condiciones Excepcionales) ocurre cuando una aplicación **no gestiona correctamente condiciones excepcionales**, como errores del sistema, fallos de red, entradas inesperadas o estados no previstos.
+
+Es una vulnerabilidad que surge cuando los desarrolladores implementan manejo de excepciones deficiente o inexistente, permitiendo que:
+
+- Errores críticos expongan información sensible del sistema
+- Flujos de control se desvíen de forma impredecible
+- Validaciones se salten silenciosamente
+- Fallos de seguridad pasen desapercibidos en logs
+
+En entornos **DevSecOps**, esta vulnerabilidad suele aparecer en:
+- Microservicios
+- APIs RESTful
+- Pipelines CI/CD automatizados
+- Infraestructura contenedorizada
+- Sistemas distribuidos en cloud
+
+---
+
+### ¿Cómo funciona?
+
+Cuando una aplicación no maneja correctamente una excepción, el sistema experimenta un flujo de eventos que puede ser explotado:
+
+```
+┌───────────────────────────────────────────────────────────────┐
+│                   FLUJO DE LA VULNERABILIDAD                  │
+├───────────────────────────────────────────────────────────────┤
+│                                                                │
+│  1. ENTRADA INESPERADA                                         │
+│     └─> Usuario o atacante envía datos malformados           │
+│                                                                │
+│  2. CONDICIÓN EXCEPCIONAL                                      │
+│     └─> Aplicación encuentra error no previsto               │
+│                                                                │
+│  3. FALTA DE MANEJO                                            │
+│     └─> No hay lógica de captura adecuada                    │
+│                                                                │
+│  4. EXPOSICIÓN DE INFORMACIÓN                                  │
+│     └─> Stack trace, rutas internas, versiones expuestas     │
+│                                                                │
+│  5. EXPLOTACIÓN                                                │
+│     └─> Atacante obtiene información para siguiente ataque   │
+│                                                                │
+└───────────────────────────────────────────────────────────────┘
+```
+
+### Causas principales
+
+```
+┌───────────────────────────────────────────────────────────────┐
+│              CAUSAS DE LA VULNERABILIDAD                       │
+├───────────────────────────────────────────────────────────────┤
+│                                                                │
+│ • Falta de bloques try-catch adecuados en código             │
+│ • Manejo genérico de excepciones (catch Exception)           │
+│ • Logging insuficiente de errores críticos                   │
+│ • Exposición de stack traces en respuestas HTTP              │
+│ • Ausencia de validación post-excepción                      │
+│ • Gestión inadecuada de fallos en servicios remotos          │
+│ • Timeouts no configurados en operaciones críticas           │
+│ • Recuperación de errores sin verificación de estado         │
+│ • Falta de centralización del manejo de errores              │
+│ • Mensajes de error detallados en producción                 │
+│                                                                │
+└───────────────────────────────────────────────────────────────┘
+```
+
+### Impacto en DevSecOps
+
+En pipelines CI/CD y arquitecturas cloud-native, esta vulnerabilidad se amplifica debido a:
+
+| Aspecto | Impacto |
+|--------|--------|
+| **Divulgación de Información** | Exposición de rutas internas, versiones, tecnologías, estructura del sistema |
+| **Compromiso de Lógica** | Elusión de controles de seguridad mediante manipulación de flujos de error |
+| **Indisponibilidad** | Fallos en cascada que afectan a múltiples servicios en la arquitectura distribuida |
+| **Exfiltración de Datos** | Acceso a información sensible mediante análisis de mensajes de error |
+| **Escalamiento** | Punto de apoyo para ataques posteriores más sofisticados |
+| **Complejidad Distribuida** | Múltiples capas de servicios sin manejo centralizado |
+| **Logs Distribuidos** | Imposibilidad de correlacionar errores sin infraestructura apropiada |
+| **Fallos Silenciosos** | Excepciones no capturadas en contenedores |
+
+### Naturaleza de la vulnerabilidad
+
+```
+CATEGORÍA:         Error de Diseño + Error de Implementación + Error de Configuración
+TIPO:              Manejo de Errores
+SEVERIDAD:         Alta (CVSS 7.5+)
+FRECUENCIA:        Muy Común (aparece en 40-60% de aplicaciones)
+DETECTABLE:        Sí (mediante SAST, DAST, análisis manual)
+```
+
+---
+
+## 2. Métodos de Explotación
+
+### Descripción de ataques
+
+Los atacantes provoca condiciones inesperadas para observar cómo reacciona el sistema, permitiendo extraer información valiosa:
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│              FLUJO TÍPICO DE EXPLOTACIÓN                      │
+├──────────────────────────────────────────────────────────────┤
+│                                                                │
+│  FASE 1: RECONOCIMIENTO                                        │
+│  ┌──────────────────────┐                                     │
+│  │ Envío de Inputs      │                                     │
+│  │ Malformados          │                                     │
+│  └────────┬─────────────┘                                     │
+│           │                                                    │
+│           v                                                    │
+│  FASE 2: GENERACIÓN DE ERROR                                  │
+│  ┌──────────────────────────────┐                             │
+│  │ Generación de Excepción      │                             │
+│  │ No Controlada                │                             │
+│  └────────┬─────────────────────┘                             │
+│           │                                                    │
+│           v                                                    │
+│  FASE 3: EXTRACCIÓN DE INFORMACIÓN                            │
+│  ┌──────────────────────────────┐                             │
+│  │ Exposición de Stack Trace    │                             │
+│  │ o Información Sensible       │                             │
+│  └────────┬─────────────────────┘                             │
+│           │                                                    │
+│           v                                                    │
+│  FASE 4: ENUMERACIÓN                                           │
+│  ┌──────────────────────────────┐                             │
+│  │ Análisis de Respuesta        │                             │
+│  │ para Enumeración de Sistema  │                             │
+│  └────────┬─────────────────────┘                             │
+│           │                                                    │
+│           v                                                    │
+│  FASE 5: EXPLOTACIÓN                                           │
+│  ┌──────────────────────────────┐                             │
+│  │ Construcción de Exploit      │                             │
+│  │ Dirigido y Específico        │                             │
+│  └──────────────────────────────┘                             │
+│                                                                │
+└──────────────────────────────────────────────────────────────┘
+```
+
+### Cómo la explotan los atacantes
+
+1. **Inyección de Excepciones**: Enviar payloads malformados deliberadamente
+   - Caracteres especiales: `'`, `"`, `\`, `/`, `%`
+   - Valores nulos o vacíos
+   - Tipos de datos incorrectos
+   - Valores numéricos extremos
+
+2. **Análisis de Errores**: Examinar mensajes de error para reconocimiento
+   - Identificar versiones de tecnologías
+   - Mapear estructura de carpetas
+   - Descubrir bases de datos
+   - Encontrar endpoints internos
+
+3. **Fuzzing Automático**: Pruebas automáticas para generar condiciones excepcionales
+   - Envío masivo de inputs variados
+   - Búsqueda de puntos débiles
+   - Análisis de respuestas diferenciadas
+
+4. **Timing Attacks**: Medir tiempos de respuesta en manejo de errores
+   - Diferencias en tiempos revelan lógica interna
+   - Validar información mediante tiempo de respuesta
+
+5. **Log Injection**: Manipular logs mediante caracteres especiales
+   - Inyectar líneas en logs
+   - Falsificar eventos de auditoría
+   - Ocultar actividad maliciosa
+
+---
+
+### Ejemplos reales de explotación
+
+**Ejemplo 1: Exposición de Stack Trace - SQL Injection**
+
+```
+SOLICITUD:
+POST /api/users/search HTTP/1.1
+Content-Type: application/json
+
+{"email": "test@example.com", "id": "' OR '1'='1"}
+
+RESPUESTA:
+HTTP/500 Internal Server Error
+Content-Type: application/json
+
+{
+  "error": "java.sql.SQLException: Syntax error in SQL statement",
+  "stackTrace": [
+    "at com.application.db.UserRepository.findById(UserRepository.java:45)",
+    "at com.application.services.UserService.getUser(UserService.java:120)",
+    "at com.application.api.UserController.searchUser(UserController.java:78)"
+  ],
+  "details": {
+    "javaVersion": "11.0.12",
+    "appPath": "/opt/app/src/main/java/com/application/",
+    "database": "PostgreSQL 12.4",
+    "timestamp": "2025-03-05T10:30:45Z"
+  }
+}
+
+INFORMACIÓN EXPUESTA:
+✓ Versión Java exacta
+✓ Estructura de carpetas
+✓ Tipo de base de datos y versión
+✓ Ruta exacta del error
+✓ Clase y método afectado
+```
+
+**Ejemplo 2: Condición de Carrera en Microservicios**
+
+```
+ESCENARIO:
+1. Atacante realiza solicitud concurrente a endpoint crítico
+2. Timeout en servicio remoto causa excepción no manejada
+3. Estado de transacción queda inconsistente
+4. Validación de seguridad se salta en manejo de error
+5. Acceso no autorizado se concede
+
+CÓDIGO VULNERABLE:
+try {
+    chargeCard(userId, amount);  // Timeout sin manejo
+    // Validación saltada si hay error
+    confirmTransaction(userId);
+} catch (Exception e) {
+    // Genérico - puede dejar estado inconsistente
+    logger.error("Payment failed");
+}
+
+EXPLOTACIÓN:
+- Atacante envía 10 solicitudes simultáneamente
+- Algunos servicios fallan por timeout
+- La lógica compensatoria no se ejecuta
+- Fondos no se cobran pero transacción marca como completada
+```
+
+**Ejemplo 3: Cascada de Fallos en Arquitectura Distribuida**
+
+```
+ARQUITECTURA:
+API Gateway -> Servicio A -> Servicio B -> Base de datos
+
+ESCENARIO DE FALLO:
+1. Servicio B experimenta timeout (DB no responde)
+2. Excepción de timeout no es capturada
+3. No se implementa Circuit Breaker
+4. Servicio A reintenta indefinidamente
+5. Recursos se agotan en Servicio A
+6. API Gateway comienza a rechazar solicitudes
+7. CASCADA DE FALLOS en toda la plataforma
+
+SÍNTOMAS:
+- High latency en API Gateway
+- Memory leaks en Servicio A
+- Cascada de errores en logs
+- Usuarios afectados globalmente
+- Recovery manual necesario
+```
+
+**Ejemplo 4: Log Injection - Falsificación de Auditoría**
+
+```
+ENTRADA MALICIOSA:
+username=admin\nADMIN|2025-03-05|LOGIN_SUCCESS|127.0.0.1
+
+LOGS RESULTANTES:
+INFO|2025-03-05T10:30:45Z|user:attacker|LOGIN_FAILED|192.168.1.100
+ADMIN|2025-03-05|LOGIN_SUCCESS|127.0.0.1
+INFO|2025-03-05T10:30:46Z|...
+
+RESULTADO:
+- Log de auditoría comprometido
+- Ataque enmascarado como inicio de sesión legítimo
+- Imposible auditar actividad maliciosa
+```
+
+---
+
+### Herramientas comunes utilizadas por atacantes
+
+| Herramienta | Tipo | Propósito | Uso en A10:2025 |
+|-------------|------|----------|-----------------|
+| **Burp Suite** | Scanner Web | Fuzzing interactivo de errores | Identificar endpoints que exponen información |
+| **OWASP ZAP** | Scanner Web | Escaneo automático de seguridad | Automatizar búsqueda de stack traces |
+| **Postman** | Cliente HTTP | Generación manual de requests | Crear payloads anómalos personalizados |
+| **Insomnia** | Cliente HTTP | Generación de requests | Fuzzing interactivo |
+| **Apache JMeter** | Herramienta de Carga | Pruebas de estrés | Generar excepciones concurrentes |
+| **AFL Fuzzer** | Fuzzer | Fuzzing dirigido | Generar inputs que causen excepciones |
+| **LibFuzzer** | Fuzzer | Fuzzing de cobertura | Automatizar búsqueda de excepciones |
+| **Chaos Monkey** | Inyección de Fallos | Inyectar fallos en cloud | Explorar manejo de fallos en producción |
+| **wfuzz** | Fuzzer Web | Fuzzing de parámetros | Probar combinaciones de entrada |
+| **ffuf** | Fuzzer Rápido | Fuzzing de fuerza bruta | Descubrir endpoints y parámetros |
+
+---
+
+## 3. Prevención y Mitigación
+
+### Estrategia integrada en 4 capas
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                   CAPA 1: PREVENCIÓN                         │
+│            (Fase de Desarrollo)                              │
+├─────────────────────────────────────────────────────────────┤
+│ • Code Review enfocado en manejo de excepciones              │
+│ • SAST: Análisis estático (SonarQube, Checkmarx, Fortify)  │
+│ • Entrenamiento de desarrolladores en patrones seguros      │
+│ • Pair programming en funciones críticas                    │
+└─────────────────────────────────┬───────────────────────────┘
+                                  │
+                                  ↓
+┌─────────────────────────────────────────────────────────────┐
+│                 CAPA 2: MITIGACIÓN COMPILACIÓN               │
+│            (Fase de Build & Integration)                     │
+├─────────────────────────────────────────────────────────────┤
+│ • Linting automático: eslint, pylint, checkstyle            │
+│ • DAST: Pruebas dinámicas en CI/CD (OWASP ZAP)             │
+│ • Validación de dependencias vulnerables                    │
+│ • Análisis de cobertura de excepciones                      │
+└─────────────────────────────────┬───────────────────────────┘
+                                  │
+                                  ↓
+┌─────────────────────────────────────────────────────────────┐
+│                 CAPA 3: CONTROL EN TIEMPO DE EJECUCIÓN       │
+│            (Fase de Deploy & Runtime)                        │
+├─────────────────────────────────────────────────────────────┤
+│ • WAF (Web Application Firewall) con reglas de error        │
+│ • Monitoreo de excepciones en tiempo real                   │
+│ • Circuit Breakers implementados                            │
+│ • Timeouts configurados en todas las operaciones            │
+│ • Rate limiting en endpoints                                │
+└─────────────────────────────────┬───────────────────────────┘
+                                  │
+                                  ↓
+┌─────────────────────────────────────────────────────────────┐
+│               CAPA 4: DETECCIÓN Y RESPUESTA                  │
+│            (Fase de Monitoreo & Incident Response)           │
+├─────────────────────────────────────────────────────────────┤
+│ • SIEM: Análisis centralizado de logs (ELK, Splunk)        │
+│ • Alertas automáticas de patrones anómalos                 │
+│ • Incident response automatizado                            │
+│ • Correlación de eventos distribuidos                       │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Medidas técnicas específicas
+
+#### 1. Gestión Centralizada de Excepciones
+
+**Java/Spring:**
+```java
+// Global Exception Handler
+@ControllerAdvice
+@RestController
+public class GlobalExceptionHandler {
+    
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleException(Exception e, HttpServletRequest request) {
+        // Generar ID único para correlación
+        String errorId = UUID.randomUUID().toString();
+        
+        // Logging DETALLADO internamente (sin exponer)
+        logger.error("Uncaught exception - Error ID: {} | User: {} | Endpoint: {}", 
+            errorId, 
+            request.getUserPrincipal(), 
+            request.getRequestURI(), 
+            e);
+        
+        // Respuesta GENÉRICA al cliente
+        return ResponseEntity
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body(new ErrorResponse(
+                "An error occurred processing your request",
+                errorId,  // Solo ID para seguimiento
+                System.currentTimeMillis()
+            ));
+    }
+    
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<ErrorResponse> handleValidation(ValidationException e) {
+        // Excepciones conocidas = respuesta específica (pero sin detalles internos)
+        return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body(new ErrorResponse("Invalid request data"));
+    }
+}
+```
+
+#### 2. Validación Post-Excepción en Operaciones Críticas
+
+**Python:**
+```python
+import logging
+import uuid
+from functools import wraps
+from datetime import datetime
+from enum import Enum
+
+# Configurar logging centralizado
+class LogLevel(Enum):
+    DEBUG = "DEBUG"
+    INFO = "INFO"
+    WARNING = "WARNING"
+    ERROR = "ERROR"
+    CRITICAL = "CRITICAL"
+
+logger = logging.getLogger(__name__)
+
+class SecurityException(Exception):
+    """Excepción específica de seguridad"""
+    pass
+
+class TransactionError(Exception):
+    """Error de transacción"""
+    pass
+
+def secure_operation(max_retries=3, timeout_seconds=5):
+    """
+    Decorador para operaciones críticas con manejo seguro
+    """
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            request_id = str(uuid.uuid4())
+            retry_count = 0
+            
+            while retry_count < max_retries:
+                try:
+                    # VALIDACIÓN PRELIMINAR
+                    if not validate_preconditions(*args, **kwargs):
+                        raise ValueError("Precondition check failed")
+                    
+                    # EJECUCIÓN CON TIMEOUT
+                    result = func(*args, request_id=request_id, **kwargs)
+                    
+                    # VALIDACIÓN POST-OPERACIÓN CRÍTICA
+                    if not verify_operation_result(result):
+                        logger.error(
+                            "Post-operation verification failed",
+                            extra={
+                                'request_id': request_id,
+                                'operation': func.__name__,
+                                'timestamp': datetime.utcnow().isoformat()
+                            }
+                        )
+                        raise SecurityException("Operation verification failed")
+                    
+                    logger.info(
+                        f"{func.__name__} completed successfully",
+                        extra={'request_id': request_id}
+                    )
+                    return result
+                
+                except ValueError as e:
+                    # Error de validación - no reintentar
+                    logger.warning(
+                        "Validation failed",
+                        extra={
+                            'request_id': request_id,
+                            'error': str(e),
+                            'operation': func.__name__
+                        }
+                    )
+                    raise
+                
+                except TransactionError as e:
+                    # Error de transacción - reintentar
+                    retry_count += 1
+                    if retry_count >= max_retries:
+                        logger.error(
+                            f"Operation failed after {max_retries} retries",
+                            extra={
+                                'request_id': request_id,
+                                'operation': func.__name__,
+                                'retries': retry_count
+                            }
+                        )
+                        raise
+                    
+                    logger.info(
+                        f"Retrying operation {retry_count}/{max_retries}",
+                        extra={'request_id': request_id, 'operation': func.__name__}
+                    )
+                
+                except SecurityException as e:
+                    # Error de seguridad - escalar inmediatamente
+                    logger.critical(
+                        "Security exception detected",
+                        extra={
+                            'request_id': request_id,
+                            'operation': func.__name__,
+                            'error': str(e)
+                        },
+                        exc_info=True
+                    )
+                    raise
+                
+                except Exception as e:
+                    # Error inesperado
+                    logger.critical(
+                        "Unexpected error in operation",
+                        extra={
+                            'request_id': request_id,
+                            'operation': func.__name__
+                        },
+                        exc_info=True
+                    )
+                    # Genérico sin exponer detalles
+                    raise RuntimeError("An unexpected error occurred")
+        
+        return wrapper
+    return decorator
+
+# Implementación en operación crítica
+@secure_operation(max_retries=2, timeout_seconds=5)
+def process_payment(user_id, amount, currency="USD", request_id=None):
+    """Procesa pago de usuario de forma segura"""
+    
+    try:
+        # 1. VALIDACIÓN EXPLÍCITA DE ENTRADA
+        if not user_id or not isinstance(user_id, int) or user_id < 1:
+            raise ValueError("Invalid user_id")
+        
+        if not amount or amount <= 0:
+            raise ValueError("Invalid amount")
+        
+        if currency not in ["USD", "EUR", "COP"]:
+            raise ValueError(f"Unsupported currency: {currency}")
+        
+        # 2. OPERACIÓN CRÍTICA
+        transaction_id = generate_transaction_id()
+        logger.debug(
+            f"Charging card for user {user_id}",
+            extra={'request_id': request_id, 'transaction_id': transaction_id}
+        )
+        
+        result = charge_card(user_id, amount, currency)
+        
+        # 3. VALIDACIÓN POST-OPERACIÓN
+        if not result or not result.get('success'):
+            raise TransactionError("Charge failed")
+        
+        # 4. VERIFICACIÓN ADICIONAL
+        if not verify_transaction_in_database(result['transaction_id']):
+            logger.error(
+                "Transaction recorded in payment system but not in database",
+                extra={'request_id': request_id, 'transaction_id': result['transaction_id']}
+            )
+            # Compensación: revertir cargo
+            refund_transaction(result['transaction_id'])
+            raise SecurityException("Database transaction mismatch")
+        
+        # 5. CONFIRMACIÓN
+        confirm_transaction(result['transaction_id'])
+        
+        logger.info(
+            "Payment processed successfully",
+            extra={
+                'request_id': request_id,
+                'user_id': user_id,
+                'transaction_id': result['transaction_id']
+            }
+        )
+        
+        return {
+            'success': True,
+            'transaction_id': result['transaction_id'],
+            'reference_id': request_id
+        }
+    
+    except ValueError as e:
+        logger.warning(f"Payment validation failed: {str(e)}", 
+                      extra={'request_id': request_id})
+        raise
+    
+    except TransactionError as e:
+        logger.error(f"Payment transaction failed: {str(e)}", 
+                    extra={'request_id': request_id})
+        raise
+    
+    except SecurityException as e:
+        logger.critical(f"Security check failed: {str(e)}", 
+                       extra={'request_id': request_id}, exc_info=True)
+        raise
+    
+    except Exception as e:
+        logger.critical("Unexpected payment error", 
+                       extra={'request_id': request_id}, exc_info=True)
+        raise RuntimeError("Payment processing failed")
+```
+
+#### 3. Timeout y Circuit Breaker en Llamadas Remotas
+
+**JavaScript/Node.js:**
+```javascript
+const express = require('express');
+const CircuitBreaker = require('opossum');
+const axios = require('axios');
+const pino = require('pino');
+
+const logger = pino({
+    level: process.env.LOG_LEVEL || 'error',
+    transport: {
+        target: 'pino-pretty',
+        options: {
+            colorize: true,
+            singleLine: true
+        }
+    }
+});
+
+// Configuración de Circuit Breaker
+const circuitBreakerOptions = {
+    timeout: 5000,              // 5 segundos
+    errorThresholdPercentage: 50, // Abrir después de 50% fallos
+    resetTimeout: 30000,        // Reintentar después de 30s
+    name: 'external_service_call'
+};
+
+// Función base con timeout
+const callExternalService = async (url, config = {}) => {
+    const timeoutMs = config.timeout || 5000;
+    
+    return new Promise((resolve, reject) => {
+        // Timeout promise
+        const timeoutPromise = new Promise((_, rejectTimeout) =>
+            setTimeout(() => rejectTimeout(new Error('Operation timeout')), timeoutMs)
+        );
+        
+        // Actual request promise
+        const requestPromise = axios.get(url, {
+            timeout: timeoutMs,
+            ...config
+        });
+        
+        // Race between request and timeout
+        Promise.race([requestPromise, timeoutPromise])
+            .then(resolve)
+            .catch(reject);
+    });
+};
+
+// Circuit Breaker wrapper
+const breaker = new CircuitBreaker(callExternalService, circuitBreakerOptions);
+
+// Event listeners para monitoreo
+breaker.fallback(() => {
+    logger.error('Circuit breaker activated - using fallback');
+    return { cached: true, data: getCachedData() };
+});
+
+breaker.on('open', () => {
+    logger.error('Circuit breaker OPEN - service unavailable');
+    alertOpsTeam('Circuit breaker opened for external service');
+});
+
+breaker.on('halfOpen', () => {
+    logger.info('Circuit breaker HALF_OPEN - testing recovery');
+});
+
+breaker.on('close', () => {
+    logger.info('Circuit breaker CLOSED - service recovered');
+});
+
+// Middleware para manejo centralizado
+const asyncHandler = (fn) => (req, res, next) => {
+    Promise.resolve(fn(req, res, next)).catch(next);
+};
+
+// Rutas con manejo seguro
+const app = express();
+
+app.get('/api/data/:id', asyncHandler(async (req, res) => {
+    const requestId = req.headers['x-request-id'] || generateUUID();
+    
+    try {
+        // Validación de entrada
+        const id = parseInt(req.params.id);
+        if (isNaN(id) || id < 1) {
+            logger.warn('Invalid ID parameter', { requestId, id: req.params.id });
+            return res.status(400).json({
+                error: 'Invalid request parameters',
+                reference_id: requestId
+            });
+        }
+        
+        // Llamada a servicio remoto con Circuit Breaker
+        const data = await breaker.fire(`https://api.example.com/data/${id}`, {
+            timeout: 5000,
+            headers: { 'X-Request-ID': requestId }
+        });
+        
+        // Validación de respuesta
+        if (!data || !data.data) {
+            logger.error('Invalid response from external service', { requestId });
+            return res.status(502).json({
+                error: 'Bad gateway response',
+                reference_id: requestId
+            });
+        }
+        
+        logger.info('Data retrieved successfully', { requestId, dataId: id });
+        res.json({ data: data.data, reference_id: requestId });
+        
+    } catch (error) {
+        const errorId = generateUUID();
+        
+        if (error.message === 'Operation timeout') {
+            logger.error('Request timeout', { requestId, errorId });
+            return res.status(504).json({
+                error: 'Service timeout',
+                reference_id: requestId,
+                error_id: errorId
+            });
+        }
+        
+        if (error.code === 'ECONNREFUSED') {
+            logger.error('Connection refused', { requestId, errorId });
+            return res.status(503).json({
+                error: 'Service unavailable',
+                reference_id: requestId,
+                error_id: errorId
+            });
+        }
+        
+        logger.error('Unhandled error in request', { requestId, errorId }, error);
+        return res.status(500).json({
+            error: 'An error occurred processing your request',
+            reference_id: requestId,
+            error_id: errorId
+        });
+    }
+}));
+
+// Global error handler (debe ir al final)
+app.use((err, req, res, next) => {
+    const errorId = generateUUID();
+    const requestId = req.headers['x-request-id'] || errorId;
+    
+    logger.error('Uncaught error in request handler', {
+        requestId,
+        errorId,
+        path: req.path,
+        method: req.method
+    }, err);
+    
+    // NUNCA exponer detalles del error al cliente
+    res.status(500).json({
+        error: 'An unexpected error occurred',
+        reference_id: requestId,
+        error_id: errorId,
+        // Nota: NO incluir stack trace, archivo, línea, etc.
+    });
+});
+
+// Función helper
+function generateUUID() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = Math.random() * 16 | 0;
+        const v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
+
+function getCachedData() {
+    // Implementar lógica de caché
+    return {};
+}
+
+function alertOpsTeam(message) {
+    // Enviar alerta a sistema de monitoreo
+    logger.warn('ALERT', { message });
+}
+
+module.exports = app;
+```
+
+---
+
+## 4. Buenas Prácticas
+
+### Diagrama de flujo seguro de manejo de excepciones
+
+```
+┌─────────────────────────────────┐
+│   ENTRADA DEL USUARIO           │
+│   (Solicitud HTTP)              │
+└────────────────┬────────────────┘
+                 │
+                 v
+        ┌────────────────────┐
+        │ VALIDACIÓN         │
+        │ PRELIMINAR         │
+        │ (Entrada)          │
+        └────────┬───────────┘
+                 │
+          ┌──────┴──────┐
+          │             │
+         NO            SÍ
+          │             │
+          v             v
+      ┌────────┐   ┌──────────────────┐
+      │RECHAZO │   │PROCESAMIENTO      │
+      │+ LOG   │   │DE LÓGICA          │
+      └────────┘   └────┬─────────────┘
+                         │
+                    ┌────┴─────┐
+                    │           │
+                  ERROR       SUCCESS
+                    │           │
+                    v           v
+            ┌────────────────┐ ┌──────────────┐
+            │CAPTURA         │ │VALIDACIÓN    │
+            │ESPECÍFICA      │ │POST-OPERACIÓN│
+            │DE EXCEPCIÓN    │ └────────┬─────┘
+            └────────┬───────┘          │
+                     │                  │
+            ┌────────┴─────┐            │
+            │              │            │
+        ESPERADA      INESPERADA        │
+            │              │            │
+            v              v            │
+        ┌────────┐   ┌──────────┐      │
+        │RECUPER │   │ESCALADA  │      │
+        │AR      │   │SEGURA    │      │
+        │RETRY   │   │LOG CRÍTICO│      │
+        └────┬───┘   └────┬─────┘      │
+             │            │             │
+             └────────┬───┴────────────┘
+                      │
+                      v
+          ┌───────────────────────┐
+          │LOGGING DETALLADO      │
+          │(sin exponer sensible) │
+          │- Request ID           │
+          │- Usuario              │
+          │- Timestamp            │
+          │- Error Type           │
+          │- Resultado            │
+          └────────────┬──────────┘
+                       │
+                       v
+          ┌───────────────────────┐
+          │RESPUESTA AL USUARIO   │
+          │(GENÉRICA Y SEGURA)    │
+          │- Código HTTP          │
+          │- Mensaje genérico     │
+          │- Reference ID         │
+          │- SIN detalles técnicos│
+          └───────────────────────┘
+```
+
+### Checklist de implementación
+
+```
+VALIDACIÓN Y ENTRADA
+─────────────────────────────────────────
+[ ] Todas las entradas son validadas antes del procesamiento
+[ ] Validación ocurre tanto en cliente como servidor
+[ ] Mensajes de rechazo son genéricos (no revelan estructura)
+[ ] Validaciones ocurren de nuevo después de recuperarse de error
+
+MANEJO DE EXCEPCIONES
+─────────────────────────────────────────
+[ ] No hay bloques catch(Exception) genéricos
+[ ] Cada excepción esperada tiene un handler específico
+[ ] Excepciones inesperadas se loguean con contexto completo
+[ ] Se implementa recuperación (retry/fallback) cuando es apropiado
+
+LOGGING Y MONITOREO
+─────────────────────────────────────────
+[ ] Todos los errores críticos están logeados
+[ ] Logs no contienen información sensible (contraseñas, tokens)
+[ ] Logs están correlacionados por request_id
+[ ] Logs centralizados en ELK/Splunk/Datadog
+[ ] Patrones anómalos se detectan automáticamente
+
+RESPUESTAS AL CLIENTE
+─────────────────────────────────────────
+[ ] Nunca se exponen stack traces
+[ ] Nunca se revelan detalles internos del sistema
+[ ] Se proporciona reference_id para seguimiento
+[ ] Mensajes de error son genéricos pero útiles
+[ ] Errores de autenticación no revelan si usuario existe
+
+CONFIGURACIÓN Y DEPLOYMENT
+─────────────────────────────────────────
+[ ] LOG_LEVEL=ERROR en producción (nunca DEBUG)
+[ ] EXPOSE_DETAILS=false en configuración
+[ ] Timeouts configurados explícitamente
+[ ] Circuit Breakers implementados en servicios remotos
+[ ] Health checks miden estado de excepciones
+
+TESTING
+─────────────────────────────────────────
+[ ] Existen tests para cada tipo de excepción esperada
+[ ] Tests verifican que respuesta es genérica
+[ ] Tests verifican que logging es correcto
+[ ] DAST automatizado en CI/CD busca stack traces
+[ ] Chaos testing inyecta fallos y valida recuperación
+```
+
+### Código de ejemplo: Patrones seguros multi-lenguaje
+
+**Patrón 1: Try-Catch específico (CORRECTO)**
+```java
+// ✓ CORRECTO - Excepciones específicas
+try {
+    user = database.findUserById(userId);
+} catch (UserNotFoundException e) {
+    // Manejo específico
+    return notFound("User not found");
+} catch (DatabaseConnectionException e) {
+    // Manejo específico
+    return serviceUnavailable();
+}
+
+// ✗ INCORRECTO - Excepción genérica
+try {
+    user = database.findUserById(userId);
+} catch (Exception e) {  // NO HACER ESTO
+    return serverError();
+}
+```
+
+**Patrón 2: Validación Post-Operación**
+```python
+# ✓ CORRECTO
+try:
+    transaction = process_payment(user_id, amount)
+    
+    # VALIDACIÓN POST-OPERACIÓN
+    if not verify_transaction(transaction.id):
+        raise SecurityException("Transaction verification failed")
+    
+    return transaction
+except Exception as e:
+    logger.error(f"Payment error: {e}")
+    raise
+
+# ✗ INCORRECTO - Sin validación
+transaction = process_payment(user_id, amount)
+return transaction  # ¿Qué pasa si falló internamente?
+```
+
+**Patrón 3: Circuit Breaker**
+```javascript
+// ✓ CORRECTO - Con Circuit Breaker
+const data = await circuitBreaker.fire(async () => {
+    return fetch(url, { timeout: 5000 });
+});
+
+// ✗ INCORRECTO - Sin manejo de fallos en cascada
+const data = await fetch(url);  // Si falla, qué pasa?
+```
+
+---
+
+## 5. Configuraciones Recomendadas
+
+### Arquitectura segura en DevSecOps
+
+```
+┌────────────────────────────────────────────────────────────────┐
+│                   USUARIO / CLIENTE                            │
+└──────────────────────────────┬─────────────────────────────────┘
+                               │
+                               v
+        ┌──────────────────────────────────────────┐
+        │         API GATEWAY / WAF                 │
+        │ ├─ Validación de entrada                 │
+        │ ├─ Rate limiting por IP                  │
+        │ ├─ Detección de patrones de ataque       │
+        │ ├─ Error masking inicial                 │
+        │ └─ Compresión de respuesta               │
+        └──────────────┬───────────────────────────┘
+                       │
+        ┌──────────────┴────────────────────────┐
+        │                                        │
+        v                                        v
+  ┌──────────────┐                      ┌──────────────┐
+  │SERVICIO A    │                      │SERVICIO B    │
+  │              │                      │              │
+  │┌──────────┐  │                      │┌──────────┐  │
+  ││Try-Catch │  │                      ││Try-Catch │  │
+  ││Específico│  │                      ││Específico│  │
+  │└──────────┘  │                      │└──────────┘  │
+  │              │                      │              │
+  │┌──────────┐  │                      │┌──────────┐  │
+  ││Circuit   │  │                      ││Circuit   │  │
+  ││Breaker   │  │                      ││Breaker   │  │
+  │└──────────┘  │                      │└──────────┘  │
+  │              │                      │              │
+  │┌──────────┐  │                      │┌──────────┐  │
+  ││Timeout   │  │                      ││Timeout   │  │
+  ││5s Config │  │                      ││5s Config │  │
+  │└──────────┘  │                      │└──────────┘  │
+  └──────────────┘                      └──────────────┘
+        │                                        │
+        └──────────────┬─────────────────────────┘
+                       │
+                       v
+        ┌──────────────────────────────────────┐
+        │   LOGGER CENTRALIZADO (ELK STACK)    │
+        │ ┌──────────────────────────────────┐ │
+        │ │ Elasticsearch                     │ │
+        │ │ - Indexación de logs             │ │
+        │ │ - Búsqueda full-text             │ │
+        │ │ - Correlación de eventos         │ │
+        │ └──────────────────────────────────┘ │
+        │ ┌──────────────────────────────────┐ │
+        │ │ Logstash                          │ │
+        │ │ - Parseo de logs                 │ │
+        │ │ - Enriquecimiento                │ │
+        │ │ - Normalización                  │ │
+        │ └──────────────────────────────────┘ │
+        │ ┌──────────────────────────────────┐ │
+        │ │ Kibana                            │ │
+        │ │ - Visualización                  │ │
+        │ │ - Dashboards                     │ │
+        │ │ - Análisis                       │ │
+        │ └──────────────────────────────────┘ │
+        └────────────┬─────────────────────────┘
+                     │
+        ┌────────────┴──────────────┐
+        │                           │
+        v                           v
+  ┌──────────────┐          ┌──────────────────┐
+  │   ALERTAS    │          │  AUDIT LOGS      │
+  │              │          │                  │
+  │┌────────────┐│          │┌────────────────┐│
+  ││ Patrones   ││          ││ Seguridad      ││
+  ││ anómalos   ││          ││ Compliance     ││
+  ││ en tasa de ││          ││ Trazabilidad   ││
+  ││ excepciones││          ││ Detección de   ││
+  │└────────────┘│          ││ anomalías      ││
+  │┌────────────┐│          │└────────────────┘│
+  ││ Circuit    ││          │┌────────────────┐│
+  ││ breakers   ││          ││ Eventos de     ││
+  ││ abiertos   ││          ││ seguridad      ││
+  │└────────────┘│          │└────────────────┘│
+  │┌────────────┐│          │┌────────────────┐│
+  ││ Tasa de    ││          ││ Cambios en     ││
+  ││ timeout    ││          ││ configuración  ││
+  ││ elevada    ││          │└────────────────┘│
+  │└────────────┘│          │                  │
+  └──────────────┘          └──────────────────┘
+```
+
+### Configuración Docker Compose para DevSecOps
+
+```yaml
+version: '3.8'
+
+services:
+  # APLICACIÓN PRINCIPAL
+  app:
+    image: myapp:${APP_VERSION:-latest}
+    container_name: secure-app
+    restart: unless-stopped
+    environment:
+      LOG_LEVEL: "${LOG_LEVEL:-ERROR}"
+      ENVIRONMENT: "production"
+      ERROR_RESPONSE_DETAIL: "minimal"
+      EXPOSE_STACK_TRACE: "false"
+      ENABLE_LOGGING: "true"
+      MAX_RETRIES: "3"
+      TIMEOUT_SECONDS: "5"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - elasticsearch
+      - redis
+    volumes:
+      - ./config/exception-handlers.yml:/app/config/handlers.yml:ro
+      - ./config/application.properties:/app/config/app.properties:ro
+    networks:
+      - secure-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
+
+  # ELASTICSEARCH para centralizar logs
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.5.0
+    container_name: elk-elasticsearch
+    restart: unless-stopped
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=true
+      - xpack.security.enrollment.enabled=true
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD:-changeme}
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+      - ./config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+    networks:
+      - secure-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:9200/_cluster/health | grep -q '\\\"status\\\":\\\"green\\\"'"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # LOGSTASH para procesamiento de logs
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.5.0
+    container_name: elk-logstash
+    restart: unless-stopped
+    volumes:
+      - ./config/logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro
+      - ./config/logstash-patterns:/usr/share/logstash/patterns:ro
+    environment:
+      - LS_JAVA_OPTS=-Xmx256m -Xms256m
+      - ELASTICSEARCH_HOSTS=https://elasticsearch:9200
+      - ELASTICSEARCH_USERNAME=elastic
+      - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD:-changeme}
+    ports:
+      - "5000:5000"
+    depends_on:
+      - elasticsearch
+    networks:
+      - secure-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9600/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # KIBANA para visualización
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.5.0
+    container_name: elk-kibana
+    restart: unless-stopped
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_HOSTS=https://elasticsearch:9200
+      - ELASTICSEARCH_USERNAME=elastic
+      - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD:-changeme}
+      - XPACK_SECURITY_ENABLED=true
+    depends_on:
+      - elasticsearch
+    networks:
+      - secure-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:5601/api/status | grep -q '\"state\":\"green\"'"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # REDIS para caché y circuit breaker
+  redis:
+    image: redis:7-alpine
+    container_name: secure-cache
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+      - ./config/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    networks:
+      - secure-network
+    command: redis-server /usr/local/etc/redis/redis.conf
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # PROMETHEUS para métricas
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus-monitoring
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./config/alert.rules.yml:/etc/prometheus/alert.rules.yml:ro
+      - prometheus_data:/prometheus
+    networks:
+      - secure-network
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:9090/-/healthy"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # GRAFANA para visualizar métricas
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana-dashboards
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin}
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./config/grafana/provisioning:/etc/grafana/provisioning:ro
+    depends_on:
+      - prometheus
+    networks:
+      - secure-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  elasticsearch_data:
+    driver: local
+  redis_data:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+
+networks:
+  secure-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+```
+
+### Configuración en Kubernetes
+
+```yaml
+---
+# ConfigMap para políticas de manejo de excepciones
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: exception-handling-policy
+  namespace: production
+data:
+  policy.yml: |
+    defaults:
+      timeout_ms: 5000
+      max_retries: 3
+      log_level: ERROR
+      expose_details: false
+      circuit_breaker:
+        enabled: true
+        threshold: 5
+        reset_timeout_ms: 30000
+    
+    services:
+      database:
+        timeout_ms: 3000
+        circuit_breaker:
+          threshold: 3
+          reset_timeout_ms: 30000
+      
+      external_api:
+        timeout_ms: 10000
+        circuit_breaker:
+          threshold: 10
+          reset_timeout_ms: 60000
+      
+      auth_service:
+        timeout_ms: 2000
+        circuit_breaker:
+          threshold: 2
+          reset_timeout_ms: 15000
+
+---
+# Deployment seguro
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: secure-app
+  namespace: production
+  labels:
+    app: secure-app
+    version: v1
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: secure-app
+  template:
+    metadata:
+      labels:
+        app: secure-app
+        version: v1
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/metrics"
+    spec:
+      serviceAccountName: secure-app
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      
+      containers:
+      - name: app
+        image: myrepo/secure-app:v1.0.0
+        imagePullPolicy: IfNotPresent
+        
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+        - name: metrics
+          containerPort: 9090
+          protocol: TCP
+        
+        env:
+        - name: LOG_LEVEL
+          value: "ERROR"
+        - name: ENVIRONMENT
+          value: "production"
+        - name: EXPOSE_DETAILS
+          value: "false"
+        - name: ELASTICSEARCH_HOST
+          value: "elasticsearch.logging:9200"
+        - name: REDIS_HOST
+          value: "redis-cache:6379"
+        
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        
+        # Liveness probe - ¿está vivo el contenedor?
+        livenessProbe:
+          httpGet:
+            path: /health/live
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        
+        # Readiness probe - ¿está listo para recibir tráfico?
+        readinessProbe:
+          httpGet:
+            path: /health/ready
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+        
+        # Startup probe - ¿completó startup?
+        startupProbe:
+          httpGet:
+            path: /health/startup
+            port: http
+          initialDelaySeconds: 0
+          periodSeconds: 10
+          timeoutSeconds: 3
+          failureThreshold: 30
+        
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+              - ALL
+        
+        volumeMounts:
+        - name: config
+          mountPath: /app/config
+          readOnly: true
+        - name: tmp
+          mountPath: /tmp
+        - name: cache
+          mountPath: /app/cache
+      
+      volumes:
+      - name: config
+        configMap:
+          name: exception-handling-policy
+      - name: tmp
+        emptyDir: {}
+      - name: cache
+        emptyDir: {}
+      
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - secure-app
+              topologyKey: kubernetes.io/hostname
+
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: secure-app-svc
+  namespace: production
+spec:
+  type: ClusterIP
+  selector:
+    app: secure-app
+  ports:
+  - name: http
+    port: 8080
+    targetPort: http
+  - name: metrics
+    port: 9090
+    targetPort: metrics
+
+---
+# HorizontalPodAutoscaler basado en excepciones
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: secure-app-hpa
+  namespace: production
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: secure-app
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Pods
+    pods:
+      metric:
+        name: exception_rate_per_second
+      target:
+        type: AverageValue
+        averageValue: "10"
+```
+
+### Pipeline CI/CD con validación de excepciones
+
+```yaml
+# .gitlab-ci.yml
+stages:
+  - analyze
+  - test
+  - build
+  - deploy
+  - monitor
+
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: "/certs"
+
+# Análisis de excepciones y SAST
+exception_security_analysis:
+  stage: analyze
+  image: python:3.10
+  script:
+    - echo "Installing analysis tools..."
+    - pip install pylint bandit safety
+    - apt-get update && apt-get install -y shellcheck
+    
+    # 1. Buscar manejo deficiente de excepciones
+    - echo "[*] Analyzing exception handling..."
+    - |
+      if grep -r "except Exception\|except:" src/ --include="*.py" | grep -v "#"; then
+        echo "ERROR: Found generic exception handlers!"
+        grep -r "except Exception\|except:" src/ --include="*.py" | grep -v "#" > exception_report.txt
+        exit 1
+      fi
+    
+    # 2. Buscar stack traces expuestos
+    - echo "[*] Checking for exposed stack traces..."
+    - |
+      if grep -r "traceback\|printStackTrace\|print(e)" src/ --include="*.py"; then
+        echo "ERROR: Found exposed stack traces!"
+        exit 1
+      fi
+    
+    # 3. Buscar logging inseguro
+    - echo "[*] Checking logging practices..."
+    - |
+      pylint --disable=all --enable=logging-not-lazy src/ > pylint-report.txt 2>&1 || true
+      if grep -q "logging-not-lazy" pylint-report.txt; then
+        echo "WARNING: Logging vulnerabilities found"
+        cat pylint-report.txt
+      fi
+    
+    # 4. Escaneo de seguridad con Bandit
+    - echo "[*] Running Bandit security scan..."
+    - bandit -r src/ -f json -o bandit-report.json
+    
+    # 5. Verificar dependencias vulnerables
+    - echo "[*] Checking for vulnerable dependencies..."
+    - safety check --json > safety-report.json || true
+    
+    # 6. Shellcheck para scripts bash
+    - echo "[*] Checking shell scripts..."
+    - find . -name "*.sh" -exec shellcheck {} \; || true
+  
+  artifacts:
+    reports:
+      sast: bandit-report.json
+    paths:
+      - exception_report.txt
+      - pylint-report.txt
+      - bandit-report.json
+      - safety-report.json
+    expire_in: 30 days
+  
+  allow_failure: false
+
+# Testing de manejo de excepciones
+exception_handling_tests:
+  stage: test
+  image: python:3.10
+  script:
+    - echo "Installing test dependencies..."
+    - pip install pytest pytest-cov pytest-timeout
+    
+    # Ejecutar tests específicos de excepciones
+    - echo "[*] Running exception handling tests..."
+    - pytest src/tests/test_exception_handling.py -v --tb=short
+    
+    # Tests de timeout
+    - echo "[*] Running timeout tests..."
+    - pytest src/tests/test_timeouts.py -v --timeout=10
+    
+    # Tests de circuit breaker
+    - echo "[*] Running circuit breaker tests..."
+    - pytest src/tests/test_circuit_breaker.py -v
+    
+    # Coverage report
+    - echo "[*] Generating coverage report..."
+    - pytest src/tests/ --cov=src --cov-report=term --cov-report=xml
+  
+  coverage: '/TOTAL.*\s+(\d+%)$/'
+  
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml
+    paths:
+      - htmlcov/
+    expire_in: 30 days
+
+# Dynamic Application Security Testing (DAST)
+dast_exception_scanning:
+  stage: test
+  image: owasp/zap2docker-stable
+  script:
+    - echo "[*] Starting DAST with OWASP ZAP..."
+    - |
+      zaproxy -cmd \
+        -quickurl http://staging-app:8080 \
+        -quickout zap-report.html
+  
+  artifacts:
+    paths:
+      - zap-report.html
+    expire_in: 30 days
+  
+  allow_failure: true
+
+# Construcción de imagen segura
+build_secure_image:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - echo "[*] Building Docker image..."
+    - docker build -t myrepo/secure-app:${CI_COMMIT_SHA:0:8} .
+    
+    - echo "[*] Scanning image with Trivy..."
+    - docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image myrepo/secure-app:${CI_COMMIT_SHA:0:8}
+    
+    - echo "[*] Pushing image..."
+    - docker push myrepo/secure-app:${CI_COMMIT_SHA:0:8}
+  
+  only:
+    - main
+    - develop
+
+# Deploy en staging
+deploy_staging:
+  stage: deploy
+  image: bitnami/kubectl:latest
+  script:
+    - echo "[*] Deploying to staging..."
+    - kubectl set image deployment/secure-app app=myrepo/secure-app:${CI_COMMIT_SHA:0:8} --namespace=staging
+    - kubectl rollout status deployment/secure-app --namespace=staging --timeout=5m
+  
+  environment:
+    name: staging
+    url: https://staging.example.com
+  
+  only:
+    - develop
+
+# Deploy en producción (manual)
+deploy_production:
+  stage: deploy
+  image: bitnami/kubectl:latest
+  script:
+    - echo "[*] Deploying to production..."
+    - kubectl set image deployment/secure-app app=myrepo/secure-app:${CI_COMMIT_SHA:0:8} --namespace=production
+    - kubectl rollout status deployment/secure-app --namespace=production --timeout=10m
+  
+  environment:
+    name: production
+    url: https://api.example.com
+  
+  when: manual
+  only:
+    - main
+
+# Monitoreo post-deployment
+post_deployment_monitoring:
+  stage: monitor
+  image: curlimages/curl:latest
+  script:
+    - echo "[*] Running post-deployment checks..."
+    
+    # Verificar endpoint de salud
+    - |
+      for i in {1..5}; do
+        if curl -f https://api.example.com/health; then
+          echo "Health check passed"
+          break
+        fi
+        sleep 10
+      done
+    
+    # Verificar tasa de excepciones
+    - echo "[*] Checking exception rates..."
+    - curl -s https://monitoring.example.com/api/metrics/exception_rate | grep -q "value.*<100"
+  
+  only:
+    - main
+```
+
+---
+
+## 6. Controles de Seguridad
+
+### Matriz integral de controles
+
+```
+┌──────────┬─────────────────────┬──────────────────┬────────────────┐
+│  FASE    │    CONTROL          │   HERRAMIENTA    │    MÉTRICA     │
+├──────────┼─────────────────────┼──────────────────┼────────────────┤
+│DESARROLLO│ Code Review Manual  │ GitHub/GitLab    │ Issues/Review  │
+│          │ SAST                │ SonarQube        │ Vulnerabilities│
+│          │ Análisis Estático   │ Checkmarx        │ Findings       │
+│          │ Linting             │ ESLint/Pylint    │ Violations     │
+├──────────┼─────────────────────┼──────────────────┼────────────────┤
+│COMPILACIÓN│ DAST Temprano       │ OWASP ZAP        │ Issues         │
+│          │ Dependency Check    │ Snyk/Trivy       │ Vulns          │
+│          │ Container Scan      │ Grype            │ Image issues   │
+│          │ Tests Unitarios     │ pytest/JUnit     │ Coverage %     │
+├──────────┼─────────────────────┼──────────────────┼────────────────┤
+│RUNTIME   │ WAF Rules           │ ModSecurity      │ Blocked        │
+│          │ Circuit Breaker     │ Resilience4j     │ Cascades       │
+│          │ Timeout Enforcement │ Spring           │ Aborted ops    │
+│          │ Monitoreo Runtime   │ Datadog/New Relic│ Exception rate │
+├──────────┼─────────────────────┼──────────────────┼────────────────┤
+│OPERACIÓN │ Log Aggregation     │ ELK/Splunk       │ Logs ingested  │
+│          │ Alerting            │ Prometheus       │ Alerts fired   │
+│          │ Análisis Patrones   │ ML-based tools   │ TTD (mins)     │
+│          │ Chaos Engineering   │ Chaos Toolkit    │ Resiliencia    │
+└──────────┴─────────────────────┴──────────────────┴────────────────┘
+```
+
+### Implementación de controles técnicos
+
+**1. Reglas WAF para detectar excepciones expuestas**
+
+```modsecurity
+# ModSecurity OWASP CRS v4.0 - Reglas personalizadas
+SecRule RESPONSE_STATUS "@eq 500" "id:1001,phase:4,block,msg:'500 Error Detected'"
+SecRule RESPONSE_BODY "@rx (?i)(Exception|Error|Traceback|Stack|at\s+\w+\()" \
+    "id:1002,\
+     phase:4,\
+     block,\
+     msg:'Exception or Stack trace exposed in response',\
+     tag:'owasp-a10-2025',\
+     tag:'cwe-209'"
+SecRule RESPONSE_BODY "@rx (?i)(SQLException|PreparedStatement|Database connection)" \
+    "id:1003,\
+     phase:4,\
+     block,\
+     msg:'Database internals exposed',\
+     tag:'owasp-a10-2025'"
+SecRule RESPONSE_BODY "@rx (?i)(\.java|\.py|\.js|C:\\\\|/usr/bin)" \
+    "id:1004,\
+     phase:4,\
+     block,\
+     msg:'File paths exposed',\
+     tag:'owasp-a10-2025'"
+```
+
+**2. Alertas en Prometheus para monitoreo de excepciones**
+
+```prometheus
+# prometheus.yml
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'app'
+    static_configs:
+      - targets: ['localhost:8080']
+
+rule_files:
+  - '/etc/prometheus/alert.rules.yml'
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ['localhost:9093']
+
+---
+# alert.rules.yml
+groups:
+  - name: exception_monitoring
+    interval: 30s
+    rules:
+      # Alta tasa de excepciones
+      - alert: HighExceptionRate
+        expr: rate(app_exceptions_total[5m]) > 10
+        for: 2m
+        annotations:
+          summary: "Aplicación reportando alta tasa de excepciones"
+          description: "{{ $value }} excepciones/segundo en {{ $labels.instance }}"
+          severity: "critical"
+      
+      # Excepciones no manejadas
+      - alert: UnhandledExceptions
+        expr: app_unhandled_exceptions_total > 0
+        for: 1m
+        annotations:
+          summary: "Excepciones no manejadas detectadas"
+          description: "{{ $value }} excepciones no manejadas en {{ $labels.instance }}"
+          severity: "critical"
+      
+      # Circuit breaker abierto
+      - alert: CircuitBreakerOpen
+        expr: app_circuit_breaker_state{state="open"} == 1
+        for: 30s
+        annotations:
+          summary: "Circuit breaker abierto"
+          description: "Servicio {{ $labels.service }} en estado abierto"
+          severity: "warning"
+      
+      # Timeout elevado
+      - alert: HighTimeoutRate
+        expr: rate(app_timeouts_total[5m]) > 5
+        for: 2m
+        annotations:
+          summary: "Tasa de timeout elevada"
+          description: "{{ $value }} timeouts/segundo"
+          severity: "warning"
+      
+      # Stack traces detectados
+      - alert: StackTraceDetected
+        expr: rate(waf_stack_trace_blocked_total[1m]) > 0
+        for: 1m
+        annotations:
+          summary: "WAF detectó stack trace en respuesta"
+          description: "{{ $value }} intentos de exposición bloqueados"
+          severity: "high"
+```
+
+**3. Script de auditoría automática de seguridad**
+
+```bash
+#!/bin/bash
+# check-exception-security.sh
+# Ejecutar en CI/CD para validar controles
+
+set -e
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+FAILURES=0
+WARNINGS=0
+
+echo "═══════════════════════════════════════════════════════════"
+echo "   Exception Handling Security Audit"
+echo "═══════════════════════════════════════════════════════════"
+echo ""
+
+# 1. Verificar excepciones genéricas
+echo -e "${YELLOW}[1/8] Checking for generic exception handlers...${NC}"
+if find . -name "*.java" -exec grep -l "catch (Exception)" {} \; | head -5; then
+    echo -e "${RED}[FAIL]${NC} Found generic exception handlers"
+    ((FAILURES++))
+else
+    echo -e "${GREEN}[PASS]${NC} No generic exception handlers found"
+fi
+echo ""
+
+# 2. Verificar stack traces expuestos
+echo -e "${YELLOW}[2/8] Checking for exposed stack traces...${NC}"
+TRACE_COUNT=$(grep -r "printStackTrace\|print(traceback)" . --include="*.java" --include="*.py" 2>/dev/null | wc -l)
+if [ $TRACE_COUNT -gt 0 ]; then
+    echo -e "${RED}[FAIL]${NC} Found exposed stack traces ($TRACE_COUNT occurrences)"
+    ((FAILURES++))
+else
+    echo -e "${GREEN}[PASS]${NC} No exposed stack traces"
+fi
+echo ""
+
+# 3. Verificar logging de excepciones
+echo -e "${YELLOW}[3/8] Checking exception logging...${NC}"
+LOG_COUNT=$(find . -name "*.java" -exec grep -l "logger.error\|logger.exception" {} \; | wc -l)
+if [ $LOG_COUNT -eq 0 ]; then
+    echo -e "${YELLOW}[WARN]${NC} No logging found in code"
+    ((WARNINGS++))
+else
+    echo -e "${GREEN}[PASS]${NC} Found logging ($LOG_COUNT files)"
+fi
+echo ""
+
+# 4. Verificar timeouts configurados
+echo -e "${YELLOW}[4/8] Checking timeout configuration...${NC}"
+TIMEOUT_COUNT=$(grep -r "timeout\|Timeout\|TIMEOUT" . --include="*.properties" --include="*.yml" --include="*.yaml" 2>/dev/null | wc -l)
+if [ $TIMEOUT_COUNT -eq 0 ]; then
+    echo -e "${RED}[FAIL]${NC} No timeouts configured"
+    ((FAILURES++))
+else
+    echo -e "${GREEN}[PASS]${NC} Timeouts found ($TIMEOUT_COUNT)"
+fi
+echo ""
+
+# 5. Verificar Circuit Breakers
+echo -e "${YELLOW}[5/8] Checking Circuit Breaker implementation...${NC}"
+BREAKER_COUNT=$(grep -r "CircuitBreaker\|circuit.breaker\|circuit-breaker" . --include="*.java" --include="*.py" --include="*.js" 2>/dev/null | wc -l)
+if [ $BREAKER_COUNT -eq 0 ]; then
+    echo -e "${YELLOW}[WARN]${NC} No circuit breakers found"
+    ((WARNINGS++))
+else
+    echo -e "${GREEN}[PASS]${NC} Circuit breakers found ($BREAKER_COUNT)"
+fi
+echo ""
+
+# 6. Verificar validación post-operación
+echo -e "${YELLOW}[6/8] Checking post-operation validation...${NC}"
+VALID_COUNT=$(grep -r "verify\|validate" . --include="*.java" --include="*.py" --include="*.js" 2>/dev/null | wc -l)
+if [ $VALID_COUNT -lt 5 ]; then
+    echo -e "${YELLOW}[WARN]${NC} Limited post-operation validation found"
+    ((WARNINGS++))
+else
+    echo -e "${GREEN}[PASS]${NC} Post-operation validation found ($VALID_COUNT)"
+fi
+echo ""
+
+# 7. Verificar mensajes de error genéricos
+echo -e "${YELLOW}[7/8] Checking error messages...${NC}"
+GENERIC_MSG=$(grep -r '"error":\|"message":' . --include="*.java" --include="*.py" 2>/dev/null | grep -v "An error\|Something went\|unexpected" | wc -l)
+if [ $GENERIC_MSG -gt 0 ]; then
+    echo -e "${GREEN}[PASS]${NC} Generic error messages found"
+else
+    echo -e "${YELLOW}[WARN]${NC} No generic error message patterns found"
+fi
+echo ""
+
+# 8. Verificar documentación de excepciones
+echo -e "${YELLOW}[8/8] Checking exception documentation...${NC}"
+if grep -r "ExceptionHandler\|@Throws\|raise " . --include="*.java" --include="*.py" 2>/dev/null | head -3; then
+    echo -e "${GREEN}[PASS]${NC} Exception documentation found"
+else
+    echo -e "${YELLOW}[WARN]${NC} Limited exception documentation"
+    ((WARNINGS++))
+fi
+echo ""
+
+# Resumen
+echo "═══════════════════════════════════════════════════════════"
+echo "AUDIT SUMMARY"
+echo "═══════════════════════════════════════════════════════════"
+echo -e "Failures:  ${RED}$FAILURES${NC}"
+echo -e "Warnings:  ${YELLOW}$WARNINGS${NC}"
+echo ""
+
+if [ $FAILURES -gt 0 ]; then
+    echo -e "${RED}[CRITICAL]${NC} Audit failed - security issues detected"
+    exit 1
+elif [ $WARNINGS -gt 0 ]; then
+    echo -e "${YELLOW}[WARNING]${NC} Audit passed with warnings - review recommended"
+    exit 0
+else
+    echo -e "${GREEN}[SUCCESS]${NC} All checks passed"
+    exit 0
+fi
+```
+
+---
+
+## 7. Conclusiones
+
+### Puntos clave para recordar
+
+A10:2025 - Mishandling of Exceptional Conditions es una vulnerabilidad crítica en entornos modernos de **Cloud y DevSecOps** porque:
+
+1. **Complejidad Distribuida**: Múltiples servicios sin manejo centralizado amplían exponencialmente el riesgo
+2. **Automatización CI/CD**: Los pipelines pueden propagar vulnerabilidades rápidamente a producción
+3. **Escalabilidad en Cloud**: Fallos sin captura causan cascadas catastróficas en arquitecturas distribuidas
+4. **Observabilidad Distribuida**: Logs distribuidos sin correlación hacen difícil detectar patrones maliciosos
+5. **Información Sensible**: Stack traces pueden exponer información valiosa para ataques posteriores
+
+### Modelo de evolución continua
+
+```
+┌─────────────────────────────────────────────────────────┐
+│         CICLO CONTINUO DE MEJORA (PDCA)                │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  PLAN (Planificación)                                   │
+│  └─ Identificar vulnerabilidades de excepciones         │
+│  └─ Establecer objetivos de seguridad                  │
+│  └─ Diseñar controles                                  │
+│                    ↓                                    │
+│  DO (Ejecución)                                         │
+│  └─ Implementar controles                              │
+│  └─ Desplegar en staging                              │
+│  └─ Ejecutar tests                                     │
+│                    ↓                                    │
+│  CHECK (Verificación)                                   │
+│  └─ Monitorear métricas                               │
+│  └─ Analizar patrones de excepciones                  │
+│  └─ Recolectar feedback                               │
+│                    ↓                                    │
+│  ACT (Actuar)                                           │
+│  └─ Ajustar basado en aprendizajes                    │
+│  └─ Actualizar playbooks                              │
+│  └─ Entrenar al equipo                                │
+│                    │                                    │
+│                    └──────────────────────────────────→ │
+│                     (Siguiente iteración)               │
+│                                                          │
+└─────────────────────────────────────────────────────────┘
+```
