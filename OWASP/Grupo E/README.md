@@ -44,8 +44,11 @@ Analizar las vulnerabilidades incluidas en el OWASP Top 10, identificando sus me
 
 OWASP (Open Web Application Security Project) es una organización sin fines de lucro cuyo objetivo principal es mejorar la seguridad del software mediante proyectos de código abierto, documentación técnica, estándares y educación en seguridad informática.
 
+OWASP ofrece una amplia gama de recursos, herramientas y pautas para ayudar a las organizaciones a proteger sus aplicaciones web de amenazas y vulnerabilidades.
+
 Más información:  
 https://owasp.org/www-project-top-ten/
+https://www.arsys.es/blog/owasp
 
 [Ver historia de OWASP](historia_owasp.md)
 
