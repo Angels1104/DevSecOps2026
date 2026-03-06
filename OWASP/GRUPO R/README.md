@@ -34,7 +34,8 @@ La seguridad en las aplicaciones web es esencial para prevenir riesgos de seguri
 <p align="center">
 <img src="IMAGENES/authentication-session-management.png" width="600">
 </p>
-  *Descripción*: La falta de mecanismos robustos de autenticación permite que un atacante secuestre o adivine credenciales de usuario.
+
+ - **Descripción**: La falta de mecanismos robustos de autenticación permite que un atacante secuestre o adivine credenciales de usuario.
  - **Métodos de Explotación**: Ataques de **fuerza bruta** o **robo de sesión**.
  - **Herramientas Comunes**: Hydra, Burp Suite.
  - **Recomendaciones**:
@@ -48,6 +49,7 @@ La seguridad en las aplicaciones web es esencial para prevenir riesgos de seguri
 <p align="center">
 <img src="IMAGENES/cifrado-icono.png" width="600">
 </p>
+
 - **Descripción**: Los datos sensibles no cifrados son vulnerables a ataques de intercepción, como los realizados mediante herramientas de sniffing.
 - **Métodos de Explotación**: Uso de **Wireshark** para interceptar tráfico no cifrado.
 - **Recomendaciones**:
@@ -60,6 +62,7 @@ La seguridad en las aplicaciones web es esencial para prevenir riesgos de seguri
 <p align="center">
 <img src="IMAGENES/external.png" width="600">
 </p>
+
 - **Descripción**: Las vulnerabilidades XXE ocurren cuando el procesador XML permite la inclusión de entidades externas maliciosas.
 - **Métodos de Explotación**: Un atacante puede enviar un archivo XML malicioso que revele archivos del sistema o ejecute comandos en el servidor.
 - **Recomendaciones**:
@@ -72,6 +75,7 @@ La seguridad en las aplicaciones web es esencial para prevenir riesgos de seguri
 <p align="center">
 <img src="IMAGENES/access-control.png" width="600">
 </p>
+
 - **Descripción**: Las fallas en los controles de acceso permiten a los atacantes acceder a recursos no autorizados.
 - **Métodos de Explotación**: Manipulación de URLs o explotación de configuraciones incorrectas de permisos.
 - **Recomendaciones**:
@@ -84,6 +88,7 @@ La seguridad en las aplicaciones web es esencial para prevenir riesgos de seguri
 <p align="center">
 <img src="IMAGENES/security-configuration.png" width="600">
 </p>
+
 - **Descripción**: Configuraciones inseguras o desactualizadas en servidores, bases de datos o aplicaciones.
 - **Métodos de Explotación**: Utilización de configuraciones predeterminadas o debilidades en las configuraciones.
 - **Recomendaciones**:
@@ -96,6 +101,7 @@ La seguridad en las aplicaciones web es esencial para prevenir riesgos de seguri
 <p align="center">
 <img src="IMAGENES/xss.png" width="600">
 </p>
+
 - **Descripción**: Inyección de scripts maliciosos en páginas web que afectan a otros usuarios.
 - **Métodos de Explotación**: Inserción de JavaScript en formularios o entradas de usuario.
 - **Recomendaciones**:
@@ -108,6 +114,7 @@ La seguridad en las aplicaciones web es esencial para prevenir riesgos de seguri
 <p align="center">
 <img src="IMAGENES/deserialization.png" width="600">
 </p>
+
 - **Descripción**: Ejecución de código malicioso desde datos deserializados sin control.
 - **Métodos de Explotación**: Inyección de objetos maliciosos durante la deserialización.
 - **Recomendaciones**:
@@ -120,6 +127,7 @@ La seguridad en las aplicaciones web es esencial para prevenir riesgos de seguri
 <p align="center">
 <img src="IMAGENES/components.png" width="600">
 </p>
+
 - **Descripción**: El uso de bibliotecas o componentes con fallos de seguridad conocidos.
 - **Métodos de Explotación**: Explotación de vulnerabilidades conocidas en bibliotecas populares.
 - **Recomendaciones**:
@@ -132,6 +140,7 @@ La seguridad en las aplicaciones web es esencial para prevenir riesgos de seguri
 <p align="center">
 <img src="IMAGENES/logging.png" width="600">
 </p>
+
 - **Descripción**: La falta de registro adecuado de eventos de seguridad y monitoreo puede dificultar la detección de incidentes.
 - **Métodos de Explotación**: Aprovechar la falta de auditoría de seguridad.
 - **Recomendaciones**:
