@@ -8,23 +8,6 @@
  
 En la actualidad, la seguridad de las aplicaciones web es fundamental para proteger datos sensibles y mantener la integridad de los sistemas. El **OWASP Top 10** identifica las 10 vulnerabilidades más críticas en aplicaciones web, y este trabajo tiene como objetivo investigar cada una de ellas, documentar los métodos de explotación más comunes y proporcionar recomendaciones de prevención y mitigación.
  
----
- 
-## 📝 Índice de Contenido
- 
-1. [Introducción](#introducción)
-2. [Vulnerabilidades del OWASP Top 10](#vulnerabilidades-del-owasp-top-10)
-   - [A1 - Inyección](#vulnerabilidad-1-a1-inyección)
-   - [A2 - Autenticación y gestión de sesiones](#vulnerabilidad-2-a2-autenticación-y-gestión-de-sesiones)
-   - [A3 - Exposición de datos sensibles](#vulnerabilidad-3-a3-exposición-de-datos-sensibles)
-   - ...
-3. [Métodos de Explotación](#métodos-de-explotación)
-4. [Mejores Prácticas de Prevención y Mitigación](#mejores-prácticas-de-prevención-y-mitigación)
-5. [Conclusiones](#conclusiones)
-6. [Referencias](#referencias)
- 
----
- 
 ## 1. Introducción
  
 La seguridad en las aplicaciones web es esencial para prevenir riesgos de seguridad y proteger la integridad de la información. El **OWASP Top 10** se ha establecido como un estándar reconocido a nivel global para identificar las principales amenazas y vulnerabilidades en las aplicaciones web.
@@ -81,6 +64,10 @@ La seguridad en las aplicaciones web es esencial para prevenir riesgos de seguri
 ---
  
 ### 🟡 Vulnerabilidad 4: **A4 - Entidades externas XML (XXE)**
+
+<p align="center">
+<img src="IMAGENES/external.png" width="600">
+</p>
  
 - **Descripción**: Las vulnerabilidades XXE ocurren cuando el procesador XML permite la inclusión de entidades externas maliciosas.
 - **Métodos de Explotación**: Un atacante puede enviar un archivo XML malicioso que revele archivos del sistema o ejecute comandos en el servidor.
