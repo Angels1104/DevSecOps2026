@@ -48,7 +48,6 @@ OWASP ofrece una amplia gama de recursos, herramientas y pautas para ayudar a la
 
 Más información:  
 https://owasp.org/www-project-top-ten/
-
 https://www.arsys.es/blog/owasp
 
 [Ver historia de OWASP](historia_owasp.md)
@@ -58,6 +57,8 @@ https://www.arsys.es/blog/owasp
 # 🛡 OWASP Top 10 (Edición 2021)
 
 A continuación, se describen las principales vulnerabilidades identificadas en la edición 2021:
+
+La edición 2021 introduce cambios importantes respecto a versiones anteriores, incorporando nuevas categorías como **Insecure Design y Software and Data Integrity Failures**, además de reorganizar vulnerabilidades existentes para reflejar mejor el panorama actual de amenazas. Lo cual nos muestra la evolución constante de los riesgos en aplicaciones web y la necesidad en la s compañias de adoptar enfoques de seguridad más integrales dentro del ciclo de vida del desarrollo de software.
 
 ---
 
