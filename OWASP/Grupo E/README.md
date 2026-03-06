@@ -2,12 +2,6 @@
 
 <h3 align="center">Métodos de Explotación y Prevención</h3>
 
-<p align="center">
-  ### Métodos de Explotación y Prevención
-</p>
-
-### Métodos de Explotación y Prevención
-
 ![Principal](images/encabezado.jpg)
 
 ---
